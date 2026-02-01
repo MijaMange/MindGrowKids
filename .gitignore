@@ -37,3 +37,6 @@ android
 # PWA
 sw.js
 workbox-*.js
+
+# Embedded git repository
+MindGrowKids/

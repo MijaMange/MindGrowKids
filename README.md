@@ -118,4 +118,3 @@ npm run dev
 - Chart.js mock dashboard
 - Supabase Auth (magic link + class code)
 - Node/Express API + persistence
-
