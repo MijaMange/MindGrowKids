@@ -1,0 +1,299 @@
+.journey-root {
+  position: relative;
+  min-height: 100vh;
+}
+
+.journey-hud {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(6px);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.06);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .journey-hud {
+    padding: 8px 12px;
+  }
+  
+  .guide {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .guide-text {
+    font-size: 0.9rem;
+  }
+  
+  .progress {
+    gap: 4px;
+  }
+  
+  .dot {
+    width: 24px;
+    height: 24px;
+    font-size: 0.85rem;
+  }
+  
+  .xp {
+    font-size: 0.9rem;
+  }
+}
+
+.guide {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  color: #2f2f2f;
+}
+
+.back-to-hub-btn {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #2f2f2f;
+  transition: all 0.2s ease;
+}
+
+.back-to-hub-btn:hover {
+  background: #f7f7f7;
+  border-color: var(--mg-good, #66c6a3);
+}
+
+.back-to-hub-btn:focus {
+  outline: 3px solid var(--focus, #1f6f8b);
+  outline-offset: 2px;
+}
+
+.guide-emoji {
+  font-size: 1.4rem;
+}
+
+.progress {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #eaeaea;
+  font-weight: 700;
+  color: #666;
+}
+
+.dot.active {
+  background: var(--mg-good, #66c6a3);
+  color: #ffffff;
+}
+
+.journey-stage {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+@media (max-width: 768px) {
+  .journey-stage {
+    padding: 16px 12px;
+  }
+}
+
+.step-card {
+  width: min(920px, 94vw);
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  margin: 18px 0;
+}
+
+@media (max-width: 768px) {
+  .step-card {
+    width: 100%;
+    padding: 16px;
+    border-radius: 16px;
+    margin: 12px 0;
+  }
+}
+
+.step-card h1 {
+  margin: 0 0 12px;
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+}
+
+.step-card .content {
+  display: grid;
+  gap: 12px;
+}
+
+.step-help-text {
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+  text-align: center;
+}
+
+.note-wrap textarea {
+  min-height: 140px;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+  padding: 12px;
+  font-size: 1rem;
+  width: 100%;
+  resize: vertical;
+}
+
+.nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    gap: 8px;
+  }
+  
+  .cta {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    flex: 1;
+    min-width: 120px;
+  }
+}
+
+.cta {
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.cta.back {
+  background: #f0f0f0;
+}
+
+.cta.next {
+  background: var(--mg-good, #66c6a3);
+  color: #ffffff;
+}
+
+.cta.send {
+  background: linear-gradient(180deg, #b7d9cf 0%, #9ccfc2 100%);
+}
+
+.cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cta:focus {
+  outline: 3px solid var(--focus, #1f6f8b);
+  outline-offset: 2px;
+}
+
+.bubble {
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: #f3fff9;
+  border: 1px solid #cfe8df;
+  font-size: 1.1rem;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.6), 0 3px 10px rgba(0, 0, 0, 0.05);
+  line-height: 1.6;
+}
+
+.emoji-wheel {
+  display: grid;
+  place-items: center;
+  gap: 14px;
+  padding: 8px;
+}
+
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .emoji-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  
+  .emoji-btn {
+    padding: 12px 10px;
+    font-size: 0.9rem;
+  }
+}
+
+.emoji-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #fff;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+}
+
+.emoji-btn:hover {
+  border-color: var(--mg-good, #66c6a3);
+  box-shadow: 0 6px 16px rgba(102, 198, 163, 0.15);
+}
+
+/* Gentle scale and glow when emotion is selected */
+.emoji-btn.active {
+  border-color: var(--mg-good, #66c6a3);
+  background: var(--mg-soft, #E9F4EF);
+  box-shadow: 0 0 0 3px rgba(102, 198, 163, 0.2), 0 4px 12px rgba(102, 198, 163, 0.25);
+  transform: scale(1.02);
+}
+
+.xp {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 800;
+  color: #2f2f2f;
+}
+
+/* Reduced motion - disable all animations */
+@media (prefers-reduced-motion: reduce) {
+  .step-card,
+  .emoji-btn {
+    animation: none !important;
+    transition: opacity 0.2s ease !important;
+  }
+  
+  .emoji-btn.active {
+    transform: none !important;
+  }
+}
+

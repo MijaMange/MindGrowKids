@@ -1,0 +1,98 @@
+@import '../../styles/design-system.css';
+
+.button-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mg-card-gap);
+  max-width: var(--mg-button-max-width);
+  width: 100%;
+  margin: 0 auto;
+}
+
+.button-nav-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: var(--mg-button-height);
+  padding: 0 24px;
+  border: none;
+  border-radius: var(--mg-radius-pill);
+  font-family: var(--mg-font-family);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--mg-shadow-button);
+  backdrop-filter: blur(8px);
+  position: relative;
+}
+
+.button-nav-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  position: absolute;
+  left: 24px;
+  flex-shrink: 0;
+}
+
+.button-nav-label {
+  flex: 1;
+  text-align: center;
+}
+
+/* Neutral (vit/offwhite) - default */
+.button-nav-item-neutral {
+  background: var(--mg-white);
+  color: var(--mg-primary-dark);
+}
+
+.button-nav-item-neutral:hover {
+  transform: scale(1.02);
+  box-shadow: var(--mg-shadow-button-hover);
+}
+
+/* Primary (grönt) */
+.button-nav-item-primary {
+  background: var(--mg-primary);
+  color: var(--mg-white);
+}
+
+.button-nav-item-primary:hover {
+  background: var(--mg-primary-dark);
+  transform: scale(1.02);
+  box-shadow: var(--mg-shadow-button-hover);
+}
+
+/* Accent (orange) - endast för barnprofil */
+.button-nav-item-accent {
+  background: var(--mg-accent-orange);
+  color: var(--mg-white);
+}
+
+.button-nav-item-accent:hover {
+  background: #e08500;
+  transform: scale(1.02);
+  box-shadow: var(--mg-shadow-button-hover);
+}
+
+/* Blue variant for teacher/parent */
+.button-nav-item-blue {
+  background: var(--mg-blue);
+  color: var(--mg-white);
+}
+
+.button-nav-item-blue:hover {
+  background: #1a5fd9;
+  transform: scale(1.02);
+  box-shadow: var(--mg-shadow-button-hover);
+}
+
+.button-nav-item:active {
+  transform: scale(1.01);
+}
+
+.button-nav-item:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 4px;
+}
+

@@ -1,0 +1,53 @@
+.journey-simple-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+}
+
+.journey-simple-content {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.journey-simple-back {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  padding: 0.75rem 1.5rem;
+  background: white;
+  border: 2px solid #2e7d32;
+  border-radius: 8px;
+  color: #2e7d32;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.journey-simple-back:hover {
+  background: #2e7d32;
+  color: white;
+}
+
+.journey-simple-content h1 {
+  font-size: 2.5rem;
+  color: #2e7d32;
+  margin-bottom: 1rem;
+}
+
+.journey-simple-message {
+  font-size: 1.5rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.journey-simple-note {
+  font-size: 1rem;
+  color: #777;
+  font-style: italic;
+}
+
+

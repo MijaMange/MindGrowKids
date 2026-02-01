@@ -1,0 +1,21 @@
+.logo-icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+.logo-icon-sm {
+  width: 32px;
+  height: 32px;
+}
+
+.logo-icon-md {
+  width: 48px;
+  height: 48px;
+}
+
+.logo-icon-lg {
+  width: 72px;
+  height: 72px;
+}
+
+

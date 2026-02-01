@@ -1,0 +1,141 @@
+{
+  "instructions": "Använd dessa JSON-exempel för att direkt sätta in data i MongoDB. Du kan använda MongoDB Compass, mongo shell, eller API.",
+  
+  "collections": {
+    "kids": [
+      {
+        "_id": "507f1f77bcf86cd799439011",
+        "name": "Otto",
+        "classCode": "1234",
+        "orgId": "",
+        "createdAt": "2024-12-15T10:00:00.000Z",
+        "updatedAt": "2024-12-15T10:00:00.000Z"
+      },
+      {
+        "_id": "507f1f77bcf86cd799439012",
+        "name": "Emma",
+        "classCode": "1234",
+        "orgId": "",
+        "createdAt": "2024-12-15T10:00:00.000Z",
+        "updatedAt": "2024-12-15T10:00:00.000Z"
+      }
+    ],
+    
+    "parents": [
+      {
+        "_id": "507f1f77bcf86cd799439021",
+        "email": "parent@test.se",
+        "passwordHash": "$2a$10$rOzJqKqKqKqKqKqKqKqKqOqKqKqKqKqKqKqKqKqKqKqKqKqKqKqKq",
+        "name": "Mamma Test",
+        "role": "parent",
+        "createdAt": "2024-12-15T10:00:00.000Z",
+        "updatedAt": "2024-12-15T10:00:00.000Z"
+      }
+    ],
+    
+    "professionals": [
+      {
+        "_id": "507f1f77bcf86cd799439031",
+        "email": "larare@test.se",
+        "passwordHash": "$2a$10$rOzJqKqKqKqKqKqKqKqKqOqKqKqKqKqKqKqKqKqKqKqKqKqKqKqKq",
+        "name": "Läraren Lisa",
+        "role": "pro",
+        "classCode": "1234",
+        "orgId": "",
+        "createdAt": "2024-12-15T10:00:00.000Z",
+        "updatedAt": "2024-12-15T10:00:00.000Z"
+      }
+    ],
+    
+    "checkins": [
+      {
+        "_id": "507f1f77bcf86cd799439041",
+        "orgId": "",
+        "classId": "",
+        "studentId": "507f1f77bcf86cd799439011",
+        "emotion": "happy",
+        "mode": "text",
+        "note": "Jag kände mig glad idag!",
+        "drawingRef": "",
+        "dateISO": "2024-12-15T10:00:00.000Z",
+        "createdAtISO": "2024-12-15T10:00:00.000Z"
+      },
+      {
+        "_id": "507f1f77bcf86cd799439042",
+        "orgId": "",
+        "classId": "",
+        "studentId": "507f1f77bcf86cd799439011",
+        "emotion": "calm",
+        "mode": "draw",
+        "note": "Ritade en sol",
+        "drawingRef": "data:image/png;base64,iVBORw0KGgoAAAANS...",
+        "dateISO": "2024-12-14T10:00:00.000Z",
+        "createdAtISO": "2024-12-14T10:00:00.000Z"
+      }
+    ],
+    
+    "moods": [
+      {
+        "_id": "507f1f77bcf86cd799439051",
+        "childRef": "507f1f77bcf86cd799439011",
+        "values": {
+          "love": 65,
+          "joy": 70,
+          "calm": 60,
+          "energy": 55,
+          "sadness": 30,
+          "anger": 25
+        },
+        "lastUpdated": "2024-12-15T10:00:00.000Z",
+        "createdAt": "2024-12-15T10:00:00.000Z",
+        "updatedAt": "2024-12-15T10:00:00.000Z"
+      }
+    ],
+    
+    "avatars": [
+      {
+        "_id": "507f1f77bcf86cd799439061",
+        "childRef": "507f1f77bcf86cd799439011",
+        "data": {
+          "hair": "short",
+          "hairColor": "#8B4513",
+          "eyes": "happy",
+          "mouth": "smile",
+          "top": "tshirt",
+          "topColor": "#FF6B6B",
+          "bottom": "pants",
+          "bottomColor": "#4ECDC4",
+          "accessory": "none",
+          "background": "sky",
+          "skinTone": "#FDBCB4"
+        },
+        "createdAt": "2024-12-15T10:00:00.000Z",
+        "updatedAt": "2024-12-15T10:00:00.000Z"
+      }
+    ],
+    
+    "classes": [
+      {
+        "_id": "507f1f77bcf86cd799439071",
+        "code": "1234",
+        "name": "Demoklass 1234",
+        "ownerUserId": "507f1f77bcf86cd799439031",
+        "orgId": "",
+        "createdAt": "2024-12-15T10:00:00.000Z",
+        "updatedAt": "2024-12-15T10:00:00.000Z"
+      }
+    ]
+  },
+  
+  "notes": {
+    "_id": "Använd ObjectId från MongoDB eller generera nya",
+    "passwordHash": "Använd bcrypt för att hash:a lösenord. Exempel: bcrypt.hash('Hemligt123', 10)",
+    "studentId": "Måste matcha _id från kids collection",
+    "childRef": "Måste matcha _id från kids collection",
+    "ownerUserId": "Måste matcha _id från professionals collection"
+  }
+}
+
+
+
+

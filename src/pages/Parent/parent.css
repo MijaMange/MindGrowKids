@@ -1,0 +1,49 @@
+.parent-actions {
+  display: flex;
+  gap: 8px;
+  alignItems: center;
+  flexWrap: wrap;
+}
+
+.pin-input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  min-width: 200px;
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .parent-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .pin-input {
+    width: 100%;
+    min-width: 0;
+  }
+  
+  .parent-actions .cta {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Chart containers */
+@media (max-width: 768px) {
+  .card h2,
+  .card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .card > div[style*="maxWidth"] {
+    max-width: 100% !important;
+  }
+}
+
+
+
+

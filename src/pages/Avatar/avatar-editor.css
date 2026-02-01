@@ -1,0 +1,66 @@
+.avatar-editor-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+}
+
+.avatar-preview {
+  display: grid;
+  place-items: center;
+}
+
+.avatar-controls {
+  display: flex;
+  flex-direction: column;
+}
+
+.wardrobe-scroll {
+  max-height: 50vh;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.avatar-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1024px) {
+  .avatar-editor-layout {
+    grid-template-columns: 280px 1fr;
+  }
+  
+  .avatar-preview {
+    min-height: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .avatar-editor-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .avatar-preview {
+    min-height: 240px;
+  }
+  
+  .wardrobe-scroll {
+    max-height: 60vh;
+  }
+  
+  .avatar-actions {
+    width: 100%;
+  }
+  
+  .avatar-actions .cta {
+    flex: 1;
+    min-width: 140px;
+  }
+}
+
+
+
+

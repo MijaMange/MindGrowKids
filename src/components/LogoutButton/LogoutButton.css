@@ -1,0 +1,34 @@
+@import '../../styles/design-system.css';
+
+.logout-button {
+  height: var(--mg-button-height-small);
+  padding: 0 32px;
+  background: var(--mg-white);
+  color: #d32f2f;
+  border: none;
+  border-radius: var(--mg-radius-pill);
+  font-family: var(--mg-font-family);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--mg-shadow-button-ghost);
+  backdrop-filter: blur(8px);
+  margin-top: var(--mg-section-gap-large);
+  white-space: nowrap;
+}
+
+.logout-button:hover {
+  transform: scale(1.02);
+  box-shadow: var(--mg-shadow-button-hover);
+}
+
+.logout-button:active {
+  transform: scale(1.01);
+}
+
+.logout-button:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 4px;
+}
+

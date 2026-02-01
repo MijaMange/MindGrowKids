@@ -1,0 +1,76 @@
+.safe-hub-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+}
+
+.safe-hub-content {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.safe-hub-logo {
+  margin-bottom: 2rem;
+}
+
+.safe-hub-greeting {
+  margin-bottom: 3rem;
+}
+
+.safe-hub-greeting h1 {
+  font-size: 2.5rem;
+  color: #2e7d32;
+  margin-bottom: 0.5rem;
+}
+
+.safe-hub-greeting p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.safe-hub-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.safe-hub-button {
+  padding: 1.5rem 2rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.safe-hub-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.safe-hub-button:active {
+  transform: translateY(0);
+}
+
+.safe-hub-button-primary {
+  background: #2e7d32;
+  color: white;
+}
+
+.safe-hub-button-secondary {
+  background: #1976d2;
+  color: white;
+}
+
+.safe-hub-button-logout {
+  background: #f44336;
+  color: white;
+  margin-top: 1rem;
+}
+
+

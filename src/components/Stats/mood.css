@@ -1,0 +1,63 @@
+.mood-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.mood-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 8px;
+  align-items: center;
+}
+
+.mood-label {
+  font-weight: 800;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.bar {
+  position: relative;
+  height: 16px;
+  background: #f1f1f1;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, #b7d9cf, #9ccfc2);
+}
+
+.pct {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .mood-row {
+    grid-template-columns: 100px 1fr;
+    gap: 6px;
+  }
+  
+  .mood-label {
+    font-size: 0.85rem;
+  }
+  
+  .bar {
+    height: 14px;
+  }
+  
+  .pct {
+    font-size: 0.75rem;
+    right: 6px;
+  }
+}
+

@@ -1,0 +1,116 @@
+/* Bottom Navigation - Game-like interface for children */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  padding: 12px 16px;
+  pointer-events: none; /* Allow clicks to pass through container */
+}
+
+.bottom-nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.6); /* Lower opacity for reduced visual weight */
+  backdrop-filter: blur(10px);
+  border-radius: 32px; /* More rounded */
+  padding: 8px 12px;
+  box-shadow: 
+    0 -1px 8px rgba(0, 0, 0, 0.05), /* Softer shadow */
+    0 2px 12px rgba(0, 0, 0, 0.04);
+  pointer-events: auto; /* Re-enable clicks on container */
+  border: 1px solid rgba(17, 153, 142, 0.08); /* Softer border */
+}
+
+.bottom-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Inactive icons - lower contrast, more subtle */
+.bottom-nav-item:not(.active) {
+  opacity: 0.4; /* Lower contrast */
+}
+
+.bottom-nav-item:not(.active):hover {
+  opacity: 0.6;
+  background: rgba(17, 153, 142, 0.03); /* Very subtle background */
+}
+
+/* Active icon - highlighted but subtle */
+.bottom-nav-item.active {
+  opacity: 1;
+  background: rgba(17, 153, 142, 0.12); /* Softer background */
+  box-shadow: 
+    0 0 0 1px rgba(17, 153, 142, 0.15), /* Softer glow */
+    0 1px 6px rgba(17, 153, 142, 0.1);
+}
+
+.bottom-nav-icon {
+  font-size: 1.5rem;
+  display: block;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+/* Subtle scale animation on active icon */
+.bottom-nav-item.active .bottom-nav-icon {
+  transform: scale(1.1);
+}
+
+/* Focus states for accessibility */
+.bottom-nav-item:focus-visible {
+  outline: 2px solid rgba(17, 153, 142, 0.4);
+  outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .bottom-nav {
+    padding: 10px 12px;
+  }
+  
+  .bottom-nav-container {
+    padding: 6px 10px;
+    gap: 6px;
+    border-radius: 24px;
+  }
+  
+  .bottom-nav-item {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+  
+  .bottom-nav-icon {
+    font-size: 1.4rem;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .bottom-nav-item,
+  .bottom-nav-icon {
+    transition: opacity 0.2s ease !important;
+    animation: none !important;
+  }
+  
+  .bottom-nav-item.active .bottom-nav-icon {
+    transform: none !important;
+  }
+}
+

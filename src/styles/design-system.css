@@ -1,0 +1,58 @@
+/* MindGrow Design System - Global Variables */
+
+:root {
+  /* Colors */
+  --mg-bg-gradient-start: #1CBF82;
+  --mg-bg-gradient-end: #029E6E;
+  --mg-white: #ffffff;
+  --mg-offwhite: #f6fff8;
+  --mg-primary: #12a15c;
+  --mg-primary-dark: #12824b;
+  --mg-accent-orange: #F79500;
+  --mg-blue: #1f6fff;
+  --mg-grey-text: rgba(255, 255, 255, 0.85);
+  --mg-grey-text-muted: rgba(255, 255, 255, 0.65);
+  --mg-grey-text-subtle: rgba(255, 255, 255, 0.6);
+
+  /* Typography */
+  --mg-font-family: 'Quicksand', sans-serif;
+  --mg-line-height-tight: 1.35;
+  --mg-line-height-normal: 1.5;
+  --mg-line-height-relaxed: 1.6;
+
+  /* Typography Sizes */
+  --mg-size-eyebrow: 14px;
+  --mg-size-headline: 30px;
+  --mg-size-headline-mobile: 26px;
+  --mg-size-supporting: 16px;
+  --mg-size-supporting-mobile: 15px;
+
+  /* Spacing */
+  --mg-page-top-padding: 72px;
+  --mg-page-top-padding-mobile: 40%;
+  --mg-section-gap: 24px;
+  --mg-section-gap-large: 32px;
+  --mg-card-gap: 12px;
+
+  /* Layout */
+  --mg-content-max-width: 560px;
+  --mg-text-max-width: 420px;
+  --mg-headline-max-width: 440px;
+  --mg-button-max-width: 420px;
+
+  /* Border radius - Pill shape */
+  --mg-radius-pill: 999px;
+  --mg-radius: 18px;
+  --mg-radius-large: 24px;
+
+  /* Button heights */
+  --mg-button-height: 56px;
+  --mg-button-height-small: 48px;
+
+  /* Shadows */
+  --mg-shadow-soft: 0 14px 30px rgba(0, 0, 0, 0.18);
+  --mg-shadow-button: 0 14px 30px rgba(0, 0, 0, 0.18);
+  --mg-shadow-button-hover: 0 16px 36px rgba(0, 0, 0, 0.22);
+  --mg-shadow-button-ghost: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+

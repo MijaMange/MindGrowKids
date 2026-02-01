@@ -1,0 +1,190 @@
+.mobile-preview-container {
+  position: fixed;
+  inset: 0;
+  background: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  z-index: 10000;
+}
+
+.mobile-preview-controls {
+  background: #2a2a2a;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid #444;
+  flex-wrap: wrap;
+}
+
+.device-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.device-selector label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.device-selector select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background: #333;
+  color: #fff;
+  font-size: 14px;
+}
+
+.orientation-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background: #444;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.orientation-btn:hover {
+  background: #555;
+}
+
+.preview-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #aaa;
+  font-size: 13px;
+}
+
+.native-badge {
+  background: #4a9eff;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.route-info {
+  font-family: monospace;
+  font-size: 12px;
+  color: #888;
+}
+
+.close-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background: #d32f2f;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.close-btn:hover {
+  background: #b71c1c;
+}
+
+.mobile-preview-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  padding: 40px;
+}
+
+.mobile-device-frame {
+  position: relative;
+  background: #000;
+  border-radius: 24px;
+  padding: 20px 10px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-device-frame.iphone {
+  border-radius: 40px;
+  padding: 12px 8px 40px;
+}
+
+.mobile-device-frame.android {
+  border-radius: 24px;
+}
+
+.mobile-device-frame.ipad {
+  border-radius: 16px;
+}
+
+.device-screen {
+  background: #fff;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 2px #333;
+}
+
+.device-content {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+/* Notch simulation för iPhone */
+.mobile-device-frame.iphone::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 24px;
+  background: #000;
+  border-radius: 0 0 16px 16px;
+  z-index: 1;
+}
+
+/* Status bar simulation */
+.device-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), transparent);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Landscape adjustments */
+.mobile-device-frame.landscape {
+  padding: 10px 20px;
+}
+
+.mobile-device-frame.iphone.landscape::before {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-preview-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .mobile-preview-wrapper {
+    padding: 20px;
+  }
+}
+

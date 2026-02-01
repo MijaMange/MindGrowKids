@@ -1,0 +1,27 @@
+.avatar-wrap {
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.08), inset 0 2px 0 rgba(255, 255, 255, 0.7);
+}
+
+.bg-mint {
+  background: linear-gradient(160deg, #e7fbf3, #f0f2ff);
+}
+
+.bg-sunset {
+  background: linear-gradient(160deg, #ffe8c9, #f0e3ff);
+}
+
+.bg-ocean {
+  background: linear-gradient(160deg, #d7f3ff, #f1f5ff);
+}
+
+.bg-forest {
+  background: linear-gradient(160deg, #e9f7ef, #cfe9d6);
+}
+
+.bg-sunrise {
+  background: linear-gradient(160deg, #ffe5b2, #ffe6f4);
+}
+

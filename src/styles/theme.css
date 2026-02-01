@@ -1,0 +1,119 @@
+:root {
+  /* Brand gradient colors - calm, organic */
+  --mg-brand-start: #11998e;
+  --mg-brand-end: #38ef7d;
+  
+  /* Soft, accessible background colors */
+  --mg-bg: #f6fbf8;
+  --mg-card: #ffffff;
+  --mg-soft: #E9F4EF;
+  --mg-mint: #C8E4E2;
+  --mg-peach: #FBE4D8;
+  --mg-warm: #FFF7ED;
+  --mg-ink: #1d2b24; /* WCAG AAA contrast on white */
+
+  /* Emotion colors - soft, accessible */
+  --mg-good: #66c6a3; /* Good contrast on white */
+  --mg-calm: #85c5d5;
+  --mg-sad: #7aa0d4;
+  --mg-curious: #f2bb6f;
+  --mg-angry: #f28a7d;
+  --mg-tired: #b9a6c8;
+
+  /* Spacing scale - generous */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* Border radius - rounded shapes */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+
+  /* Focus styles - high contrast */
+  --focus-color: #1f6f8b;
+  --focus-width: 3px;
+}
+
+/* Pills och ghost-knappar */
+.pill {
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 2px solid var(--mg-soft);
+  background: var(--mg-card);
+  color: var(--mg-ink);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pill:hover {
+  background: var(--mg-soft);
+  border-color: var(--mg-good);
+}
+
+.cta {
+  padding: 14px 28px;
+  border-radius: 12px;
+  border: none;
+  background: var(--mg-good);
+  color: var(--mg-ink);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.cta.ghost {
+  background: transparent;
+  border: 2px solid var(--mg-soft);
+  color: var(--mg-ink);
+}
+
+.cta.ghost:hover {
+  background: var(--mg-soft);
+}
+
+.cta.next {
+  background: var(--mg-good);
+  color: #fff;
+}
+
+.nav-btn {
+  background: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--mg-ink);
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.nav-btn:active {
+  transform: scale(0.98);
+}
+
+.nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}

@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee:wght@400&display=swap');
+
+.mg-logo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* Ökad gap för bättre separation */
+  font-family: 'Bungee', sans-serif;
+  user-select: none;
+  font-weight: 400;
+  line-height: 1.2; /* Bättre line-height för läsbarhet */
+}
+
+.mg-logo.sm {
+  font-size: 20px; /* Ökad från 18px */
+}
+
+.mg-logo.md {
+  font-size: 30px; /* Ökad från 26px */
+}
+
+.mg-logo.lg {
+  font-size: 40px; /* Ökad från 32px */
+}
+
+.mg-word {
+  display: inline-block;
+  padding: 6px 12px; /* Ökad padding för bättre läsbarhet */
+  border-radius: 10px;
+  background: linear-gradient(180deg, #f5f1e8 0%, #e8e0d3 100%); /* Ljusare bakgrund för bättre kontrast */
+  color: #1a1a1a; /* Mörkare text för bättre kontrast */
+  letter-spacing: 0.5px; /* Minskat från 1px */
+  font-weight: 400;
+  /* Förenklad text-shadow för bättre läsbarhet */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  /* Förenklad box-shadow */
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid #c4bca8; /* Tydligare border */
+}
+
+.mg-word.grow {
+  background: linear-gradient(180deg, #d4ede5 0%, #b8dfd0 100%); /* Ljusare grön för bättre kontrast */
+  border-color: #8fc4b0; /* Tydligare border */
+  color: #1a1a1a; /* Mörkare text */
+  /* Förenklad text-shadow */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  /* Förenklad box-shadow */
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mg-badge {
+  position: absolute;
+  right: -20px;
+  top: -12px;
+  transform: rotate(-10deg);
+  background: linear-gradient(180deg, #ffd54f 0%, #ffb300 100%); /* Ljusare gul för bättre kontrast */
+  color: #1a1a1a; /* Mörkare text */
+  border: 2.5px solid #e6a000; /* Tydligare border */
+  border-radius: 12px;
+  padding: 4px 10px; /* Ökad padding */
+  font-size: 0.65em; /* Ökad från 0.6em */
+  letter-spacing: 0.5px; /* Minskat från 1px */
+  font-weight: 400;
+  /* Förenklad box-shadow */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  /* Lägg till text-shadow för bättre läsbarhet */
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.mg-logo.lg .mg-badge {
+  font-size: 0.75em; /* Ökad från 0.7em */
+  right: -24px;
+  top: -16px;
+  padding: 5px 12px; /* Ökad padding för större storlek */
+}
+
+/* Förbättrad läsbarhet på mörka bakgrunder */
+.mg-logo {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+

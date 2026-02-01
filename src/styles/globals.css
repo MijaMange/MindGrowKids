@@ -1,0 +1,111 @@
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--mg-bg, #f6fbf8);
+  color: var(--mg-ink, #1d2b24);
+  font-family: 'Quicksand', system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif;
+  line-height: 1.6;
+}
+
+a:focus, button:focus, input:focus, textarea:focus {
+  outline: var(--focus-width, 3px) solid var(--focus-color, #1f6f8b);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm, 8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Calm Mode - reducerar rörelser och färger */
+[data-calm='1'] * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+[data-calm='1'] {
+  filter: saturate(0.7) brightness(0.95);
+}
+
+/* A11y: tydliga fokusstilar - WCAG compliant */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: var(--focus-width, 3px) solid var(--focus-color, #1f6f8b);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm, 8px);
+}
+
+/* App controls (mute, calm mode) */
+.app-controls {
+  position: fixed;
+  right: 12px;
+  top: 12px;
+  z-index: 9999;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.control-btn {
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  background: var(--mg-card, #ffffff);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  font-size: 0.9rem;
+  color: var(--mg-ink, #1d2b24);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .app-controls {
+    right: 8px;
+    top: 8px;
+    gap: 6px;
+  }
+  
+  .control-btn {
+    padding: 6px 8px;
+    font-size: 0.8rem;
+  }
+}
+
+.container { 
+  max-width: 960px; 
+  margin: 0 auto; 
+  padding: var(--spacing-xl, 32px); 
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-md, 16px);
+  }
+}
+
+.card {
+  background: var(--mg-card, #ffffff);
+  border-radius: var(--radius-lg, 16px);
+  padding: var(--spacing-lg, 24px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: var(--spacing-md, 16px);
+    border-radius: var(--radius-md, 12px);
+  }
+}
+

@@ -1,0 +1,35 @@
+.wrap { display: grid; gap: 8px; }
+
+.lbl { font-size: .95rem; color: #666; }
+
+textarea {
+  min-height: 96px; resize: vertical; padding: 12px;
+  border-radius: 10px; border: 1px solid #ddd;
+  background: #fff;
+}
+
+.canvasWrap {
+  margin-top: 8px;
+  background: var(--mg-card, #ffffff);
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.canvasBtns {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.canvasBtns button {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  cursor: pointer;
+}
+
+.canvasBtns button:hover {
+  background: #f1f1f1;
+}
+
