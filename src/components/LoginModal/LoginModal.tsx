@@ -10,11 +10,18 @@ interface LoginModalProps {
   onSuccess: () => void;
 }
 
+/** Testkonton – enklick-inloggning för utveckling/demo */
+const TEST_ACCOUNTS = [
+  { email: 'larare@test.se', password: '1234', label: 'Test-lärare', icon: '👩‍🏫' },
+  { email: 'test', password: '1234', label: 'Test-förälder', icon: '👨‍👩‍👧' },
+  { email: 'otto@test.se', password: '1234', label: 'Test-barn', icon: '🧒' },
+] as const;
+
 /**
  * LoginModal - Simple login popup
  * 
- * Only username + password + "Logga in" button
- * Calls login() from AuthContext on success
+ * Username + password + "Logga in" button
+ * Snabb inloggning med testkonton (en klick)
  */
 export function LoginModal({ isOpen, onClose, onSuccess }: LoginModalProps) {
   // CRITICAL: All hooks must be called at the top, before any conditional returns
@@ -64,6 +71,25 @@ export function LoginModal({ isOpen, onClose, onSuccess }: LoginModalProps) {
       setError(isNetwork
         ? 'Kunde inte ansluta. Kontrollera att servern körs (t.ex. backend på port 4000).'
         : 'Ett fel uppstod: ' + msg);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleTestLogin(account: (typeof TEST_ACCOUNTS)[number]) {
+    setError('');
+    setLoading(true);
+    try {
+      const result = await login({ username: account.email, password: account.password });
+      if (result.success) {
+        onSuccess();
+        onClose();
+        setTimeout(() => navigate('/hub', { replace: true }), 50);
+      } else {
+        setError(result.error);
+      }
+    } catch (err) {
+      setError('Kunde inte ansluta. Kontrollera att servern körs.');
     } finally {
       setLoading(false);
     }
@@ -145,6 +171,28 @@ export function LoginModal({ isOpen, onClose, onSuccess }: LoginModalProps) {
           >
             {loading ? 'Loggar in...' : 'Logga in'}
           </button>
+
+          <div className="login-modal-test-divider">
+            <span>Snabb inloggning för test</span>
+          </div>
+          <p className="login-modal-test-intro">
+            Ska du testa prototypen? Använd redan färdiga inloggningar:
+          </p>
+          <div className="login-modal-test-actions">
+            {TEST_ACCOUNTS.map((acc) => (
+              <button
+                key={acc.email}
+                type="button"
+                className="login-modal-test-btn"
+                onClick={() => handleTestLogin(acc)}
+                disabled={loading}
+                aria-label={`Logga in som ${acc.label}`}
+              >
+                <span className="login-modal-test-icon" aria-hidden>{acc.icon}</span>
+                <span>{acc.label}</span>
+              </button>
+            ))}
+          </div>
         </form>
       </div>
     </div>
