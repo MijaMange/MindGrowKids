@@ -61,10 +61,19 @@ git status   # dubbelkolla innan commit
 
 ---
 
+## 📁 Sökväg till frontend (dist)
+
+Servern körs från `dist/server/index.js` på Render. Därför måste `distPath` peka på `dist/` (en nivå upp från `dist/server`), inte `dist/dist`. Koden hanterar både:
+- **Prod (Render):** `dist/server` → parent `dist` med `assets/` = rätt
+- **Lokal dev:** `server` → `../dist` = dist
+
+---
+
 ## ⚠️ Vanliga problem
 
 | Problem | Lösning |
 |---------|---------|
+| "Frontend not built. Run: npm run build" | Sökvägen till dist var fel när servern kör från `dist/server/`. Nu fixat: `distPath` pekar på parent (dist) när `dist/assets` finns. |
 | 404 på alla sidor | SPA fallback – servern ska servera index.html. Kolla att `dist/index.html` finns. |
 | CORS-fel | Sätt `ALLOWED_ORIGINS` till din exakta Render-URL (https://...). |
 | "Server saknar JWT_SECRET" | Sätt `JWT_SECRET` i Render Environment. |

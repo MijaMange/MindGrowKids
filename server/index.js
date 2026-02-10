@@ -170,8 +170,9 @@ if (process.env.FORCE_HTTPS === 'true') {
   });
 }
 
-// Definiera dist-mapp
-const distPath = path.resolve(__dirname, '../dist');
+// Dist-mapp: från dist/server/ (prod) är parent = dist; från server/ (dev) är ../dist = dist
+const parent = path.resolve(__dirname, '..');
+const distPath = existsSync(path.join(parent, 'assets')) ? parent : path.resolve(__dirname, '../dist');
 
 // Health & diagnostics
 app.get('/api/health', (req, res) => {
