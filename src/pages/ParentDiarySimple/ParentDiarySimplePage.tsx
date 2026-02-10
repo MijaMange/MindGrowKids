@@ -3,33 +3,16 @@ import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 import { format } from 'date-fns';
 import { sv } from 'date-fns/locale';
+import { LoadingSpinner } from '../../components/Loading/LoadingSpinner';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
+import { getEmotionEmoji, getEmotionLabel } from '../../config/emotions';
 import '../Diary/diary.css';
 
-const EMOTION_EMOJIS: Record<string, string> = {
-  happy: '😊',
-  calm: '🫶',
-  tired: '😪',
-  sad: '😔',
-  curious: '🧐',
-  angry: '😠',
-};
-
-const EMOTION_LABELS: Record<string, string> = {
-  happy: 'Glad',
-  calm: 'Lugn',
-  tired: 'Trött',
-  sad: 'Ledsen',
-  curious: 'Nyfiken',
-  angry: 'Arg',
-};
-
 /**
- * ParentDiarySimplePage - Dagbok för ett specifikt barn (för föräldrar)
- * 
- * Visar dagbok för det valda barnet.
+ * ParentDiarySimplePage - Dagbok för ett specifikt barn.
+ * Föräldrar har inte tillgång till dagboksvisning – omdirigeras till Mina barn.
  */
 export function ParentDiarySimplePage() {
-  // CRITICAL: All hooks must be called at the top
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { user } = useAuth();
@@ -76,7 +59,12 @@ export function ParentDiarySimplePage() {
   }
 
   if (user.role !== 'parent') {
-    return <Navigate to="/test-hub" replace />;
+    return <Navigate to="/hub" replace />;
+  }
+
+  // Föräldrar ska inte kunna se barnets dagbok – bara översikten på Mina barn
+  if (user.role === 'parent') {
+    return <Navigate to="/app/parent-children" replace />;
   }
 
   if (!childId) {
@@ -120,13 +108,16 @@ export function ParentDiarySimplePage() {
 
       {loading ? (
         <div className="card">
-          <p>Laddar...</p>
+          <LoadingSpinner />
         </div>
       ) : sortedDates.length === 0 ? (
         <div className="card">
-          <p style={{ color: '#666', textAlign: 'center', padding: '40px' }}>
-            Ingen data ännu. När ditt barn börjar använda appen visas deras anteckningar här.
-          </p>
+          <EmptyState
+            title="Ingen data ännu"
+            description="När ditt barn börjar använda appen visas deras anteckningar här."
+            icon="📔"
+            className="empty-state-in-card"
+          />
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -145,15 +136,15 @@ export function ParentDiarySimplePage() {
                         padding: '12px',
                         background: '#f9f9f9',
                         borderRadius: '8px',
-                        borderLeft: `4px solid ${EMOTION_EMOJIS[checkin.emotion] ? '#11998e' : '#ddd'}`,
+                        borderLeft: `4px solid ${checkin.emotion ? '#11998e' : '#ddd'}`,
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                         <span style={{ fontSize: '1.5rem' }}>
-                          {EMOTION_EMOJIS[checkin.emotion] || '😊'}
+                          {getEmotionEmoji(checkin.emotion)}
                         </span>
                         <span style={{ fontWeight: 600 }}>
-                          {EMOTION_LABELS[checkin.emotion] || checkin.emotion}
+                          {getEmotionLabel(checkin.emotion)}
                         </span>
                         <span style={{ color: '#666', fontSize: '0.9rem', marginLeft: 'auto' }}>
                           {format(new Date(checkin.dateISO), 'HH:mm')}

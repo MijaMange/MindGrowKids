@@ -1,6 +1,11 @@
 import { Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useAuth } from '../../auth/AuthContext';
+import { useAge } from '../../context/AgeContext';
+import { useEmojiAvatarStore } from '../../state/useEmojiAvatarStore';
 import { UnifiedHubLayout } from '../../components/UnifiedHubLayout/UnifiedHubLayout';
+import { AgeGuard } from '../../components/AgeGuard/AgeGuard';
+import { AgeSelectionBlock } from '../../components/AgeSelectionBlock';
 
 /**
  * TestHubPage - Fullständig hub/dashboard för alla roller
@@ -10,32 +15,34 @@ import { UnifiedHubLayout } from '../../components/UnifiedHubLayout/UnifiedHubLa
  * - Föräldrar/Lärare: Översikt med statistik
  */
 export function TestHubPage() {
-  // CRITICAL: All hooks must be called at the top, before any conditional returns
-  // This ensures hooks are always called in the same order, preventing React error #310
-  // Hook 1: useAuth
   const { user } = useAuth();
+  const { emoji, loadFromServer } = useEmojiAvatarStore();
 
-  // Conditional redirect is fine AFTER all hooks have been called
-  // Use Navigate component to redirect if no user (prevents rendering with null user)
+  useEffect(() => {
+    if (user?.role === 'child') loadFromServer();
+  }, [user?.role, loadFromServer]);
+
   if (!user) {
     return <Navigate to="/" replace />;
   }
 
-  // Rollbaserad rendering
   const role = user.role;
 
-  // Barn-dashboard
+  // Barn-dashboard: hub direkt (ingen åldersval)
   if (role === 'child') {
     return (
-      <UnifiedHubLayout
-        title={`Hej ${user.name || 'där'}! 👋`}
-        subtitle="Vad vill du göra idag?"
-        actions={[
-          { icon: '💬', label: 'Hur känner jag mig idag?', to: '/app/journey-simple', color: 'primary' },
-          { icon: '📅', label: 'Mina dagar', to: '/app/diary-simple', color: 'neutral' },
-          { icon: '🙂', label: 'Jag', to: '/app/avatar-simple', color: 'accent' },
-        ]}
-      />
+      <AgeGuard>
+        <UnifiedHubLayout
+          title={`Hej, ${user.name || 'du'}!`}
+          childActions={true}
+          showLogout={false}
+          actions={[
+            { icon: '❤️ 🧠', label: 'Hur mår jag idag?', to: '/app/journey-simple' },
+            { icon: '📅', label: 'Mina dagar', to: '/app/diary-simple' },
+            { icon: emoji || '😊', label: 'Jag', to: '/app/avatar-simple' },
+          ]}
+        />
+      </AgeGuard>
     );
   }
 
@@ -48,7 +55,6 @@ export function TestHubPage() {
         description="Översikt över ditt barns känslor."
         actions={[
           { icon: '👨‍👩‍👧', label: 'Mina barn', to: '/app/parent-children', color: 'neutral' },
-          { icon: '📘', label: 'Dagbok', to: '/app/parent-diary-simple', color: 'blue' },
         ]}
       />
     );

@@ -1,0 +1,103 @@
+.overlay-picker-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: overlayPickerFadeIn 0.2s ease-out;
+}
+
+@keyframes overlayPickerFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.overlay-picker-panel {
+  background: var(--mg-panel-bg, #fafbf9);
+  border-radius: var(--mg-panel-radius, 24px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  padding: 24px;
+  position: relative;
+  max-width: 320px;
+  width: 100%;
+  animation: overlayPickerSlideIn 0.25s ease-out;
+}
+
+@keyframes overlayPickerSlideIn {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.overlay-picker-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 50%;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: #2f2f2f;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay-picker-close:hover { background: rgba(0, 0, 0, 0.1); }
+.overlay-picker-close:focus-visible {
+  outline: 3px solid var(--focus, #1f6f8b);
+  outline-offset: 2px;
+}
+
+.overlay-picker-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.overlay-picker-option {
+  aspect-ratio: 1;
+  max-width: 56px;
+  max-height: 56px;
+  border: 3px solid transparent;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.overlay-picker-option:hover {
+  transform: scale(1.08);
+  border-color: var(--mg-good, #1CBF82);
+}
+
+.overlay-picker-option.selected {
+  border-color: var(--mg-good, #1CBF82);
+  background: rgba(28, 191, 130, 0.08);
+}
+
+.overlay-picker-option:focus-visible {
+  outline: 3px solid var(--focus, #1f6f8b);
+  outline-offset: 2px;
+}
+
+.overlay-picker-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.overlay-picker-option:first-child .overlay-picker-icon {
+  font-size: 1.2rem;
+  color: #999;
+}

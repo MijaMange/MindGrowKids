@@ -1,0 +1,1 @@
+export { AvatarStage } from './AvatarStage';

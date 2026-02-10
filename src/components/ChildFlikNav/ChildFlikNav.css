@@ -1,0 +1,100 @@
+/* Fliknavigering för barn – alltid synlig längst ner så barnet kan byta vy */
+
+.child-flik-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: center;
+  padding: 10px 12px;
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
+  pointer-events: none;
+}
+
+.child-flik-nav-inner {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 6px 8px;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  pointer-events: auto;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.child-flik-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+  padding: 10px 8px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #1d2b24;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.child-flik-nav-item:not(.active) {
+  color: #5a6b63;
+  opacity: 0.85;
+}
+
+.child-flik-nav-item:not(.active):hover {
+  background: rgba(28, 191, 130, 0.08);
+  color: #1d2b24;
+  opacity: 1;
+}
+
+.child-flik-nav-item.active {
+  background: rgba(28, 191, 130, 0.18);
+  color: #017a52;
+  box-shadow: 0 0 0 1px rgba(28, 191, 130, 0.2);
+}
+
+.child-flik-nav-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+  display: block;
+}
+
+.child-flik-nav-label {
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.child-flik-nav-item:focus-visible {
+  outline: 2px solid #017a52;
+  outline-offset: 2px;
+}
+
+@media (max-width: 380px) {
+  .child-flik-nav-inner {
+    gap: 4px;
+    padding: 5px 6px;
+  }
+  .child-flik-nav-item {
+    padding: 8px 4px;
+    font-size: 0.75rem;
+  }
+  .child-flik-nav-icon {
+    font-size: 1.2rem;
+  }
+}

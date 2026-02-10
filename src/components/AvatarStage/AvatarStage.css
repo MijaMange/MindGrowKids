@@ -1,0 +1,68 @@
+/* AvatarStage – layered avatar with correct accessory anchors (nothing below emoji) */
+
+.avatar-stage-bubble {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+}
+
+.avatar-stage-inner {
+  position: relative;
+  width: var(--avatar-stage-size, 200px);
+  height: var(--avatar-stage-size, 200px);
+}
+
+/* Base: face centered */
+.avatar-stage-base {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-stage-emoji {
+  line-height: 1;
+  user-select: none;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.12));
+}
+
+/* All accessory layers: absolute, positioned by anchor (no accessory below center) */
+.avatar-stage-layer {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  line-height: 1;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+  user-select: none;
+  pointer-events: none;
+}
+
+/* headTop: hat/crown – top of head, above the emoji */
+.avatar-stage-head {
+  top: 2%;
+  bottom: auto;
+}
+
+/* eyes: glasses – middle of face */
+.avatar-stage-eyes {
+  top: 32%;
+  bottom: auto;
+}
+
+/* effects: star/heart – top-right side of bubble (beside head, not below) */
+.avatar-stage-effects {
+  top: 12%;
+  right: 0;
+  left: auto;
+  transform: translateX(20%);
+}

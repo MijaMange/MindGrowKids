@@ -4,14 +4,25 @@ import cookieParser from 'cookie-parser';
 export const useCookies = cookieParser();
 
 export function authRequired(req, res, next) {
-  const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
-  if (!token) return res.status(401).json({ error: 'missing_token' });
   try {
+    const token = req.cookies?.token || (req.headers.authorization && req.headers.authorization.split(' ')[1]);
+    if (!token) {
+      res.status(401).json({ error: 'missing_token' });
+      return;
+    }
+    if (!process.env.JWT_SECRET || String(process.env.JWT_SECRET).trim() === '') {
+      res.status(401).json({ error: 'invalid_token' });
+      return;
+    }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // { id, role }
+    req.user = decoded;
     next();
-  } catch {
-    res.status(401).json({ error: 'invalid_token' });
+  } catch (e) {
+    try {
+      res.status(401).json({ error: 'invalid_token' });
+    } catch (_) {
+      next(e);
+    }
   }
 }
 

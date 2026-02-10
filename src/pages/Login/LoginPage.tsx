@@ -27,7 +27,7 @@ export function LoginPage() {
   // Conditional redirect is fine AFTER all hooks have been called
   // If already authenticated, redirect to hub
   if (user) {
-    nav('/test-hub', { replace: true });
+    nav('/hub', { replace: true });
     return null;
   }
 
@@ -36,21 +36,19 @@ export function LoginPage() {
     setError('');
     
     if (!username || !password) {
-      setError('Användarnamn och lösenord krävs');
+      setError('E-post och lösenord krävs');
       return;
     }
 
     setLoading(true);
     try {
-      // Use login function from AuthContext
-      const success = await login({ username, password });
-      if (success) {
-        // Redirect to test-hub (new minimal hub)
+      const result = await login({ username, password });
+      if (result.success) {
         const from = (location.state as any)?.from?.pathname;
-        const redirectPath = from || '/test-hub';
+        const redirectPath = from || '/hub';
         nav(redirectPath, { replace: true });
       } else {
-        setError('Fel användarnamn eller lösenord');
+        setError(result.error);
       }
     } catch (err) {
       console.error('Login error:', err);
@@ -60,45 +58,71 @@ export function LoginPage() {
     }
   }
 
+  const errorId = 'login-error';
+  const usernameId = 'login-username';
+  const passwordId = 'login-password';
+
   return (
     <div className="login-page">
       <div className="login-container">
-        <form onSubmit={handleLogin} className="login-form">
+        <form onSubmit={handleLogin} className="login-form" noValidate>
           <h1 className="login-title">Logga in</h1>
           
-          {error && (
-            <div className="login-error" role="alert">
-              {error}
-            </div>
-          )}
+          <div 
+            id={errorId}
+            className="login-error" 
+            role="alert"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            {error && error}
+          </div>
 
-          <input
-            type="text"
-            className="login-input"
-            placeholder="Användarnamn"
-            value={username}
-            onChange={(e) => {
-              setUsername(e.target.value);
-              setError('');
-            }}
-            autoComplete="username"
-            required
-            disabled={loading}
-          />
+          <div>
+            <label htmlFor={usernameId} className="sr-only">
+              E-post
+            </label>
+            <input
+              id={usernameId}
+              type="email"
+              className="login-input"
+              placeholder="E-post"
+              value={username}
+              onChange={(e) => {
+                setUsername(e.target.value);
+                setError('');
+              }}
+              autoComplete="email"
+              required
+              aria-required="true"
+              aria-invalid={error ? 'true' : 'false'}
+              aria-describedby={error ? errorId : undefined}
+              disabled={loading}
+            />
+          </div>
           
-          <input
-            type="password"
-            className="login-input"
-            placeholder="Lösenord"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setError('');
-            }}
-            autoComplete="current-password"
-            required
-            disabled={loading}
-          />
+          <div>
+            <label htmlFor={passwordId} className="sr-only">
+              Lösenord
+            </label>
+            <input
+              id={passwordId}
+              type="password"
+              className="login-input"
+              placeholder="Lösenord"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setError('');
+              }}
+              autoComplete="current-password"
+              required
+              aria-required="true"
+              aria-invalid={error ? 'true' : 'false'}
+              aria-describedby={error ? errorId : undefined}
+              disabled={loading}
+            />
+          </div>
           
           <button
             type="submit"

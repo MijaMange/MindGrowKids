@@ -1,9 +1,10 @@
 /* MindGrow Design System - Global Variables */
 
 :root {
-  /* Colors */
+  /* Colors – en gradient överallt så att nyansen inte bryts */
   --mg-bg-gradient-start: #1CBF82;
   --mg-bg-gradient-end: #029E6E;
+  --mg-bg-gradient: linear-gradient(135deg, var(--mg-bg-gradient-start) 0%, var(--mg-bg-gradient-end) 100%);
   --mg-white: #ffffff;
   --mg-offwhite: #f6fff8;
   --mg-primary: #12a15c;
@@ -51,8 +52,28 @@
 
   /* Shadows */
   --mg-shadow-soft: 0 14px 30px rgba(0, 0, 0, 0.18);
+  --mg-shadow-panel: 0 12px 32px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08);
   --mg-shadow-button: 0 14px 30px rgba(0, 0, 0, 0.18);
   --mg-shadow-button-hover: 0 16px 36px rgba(0, 0, 0, 0.22);
   --mg-shadow-button-ghost: 0 8px 20px rgba(0, 0, 0, 0.12);
+  
+  /* Panel/Content Areas */
+  --mg-panel-bg: #fafbf9;
+  --mg-panel-radius: 32px;
+
+  /* Emerald gradient (lärarvy / pro) – något mörkare, professionell */
+  --mg-emerald-700: #047857;
+  --mg-emerald-600: #059669;
+  --mg-emerald-500: #10b981;
+
+  /* Glass / frosted cards – använd för alla kort som flyter ovanpå gradient */
+  --mg-glass-bg: rgba(255, 255, 255, 0.2);
+  --mg-glass-border: rgba(255, 255, 255, 0.15);
+  --mg-glass-blur: 12px;
+
+  /* Layout – pro/klassens statistik fyller bredden mer */
+  --mg-pro-content-max: 1320px;
+  --mg-pro-content-padding: 28px;
+  --mg-app-content-max: 560px; /* hub/smalare sidor */
 }
 

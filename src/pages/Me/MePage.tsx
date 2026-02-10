@@ -4,12 +4,14 @@ import { useMoodStore } from '../../state/useMoodStore';
 import { useAvatarStore } from '../../state/useAvatarStore';
 import { MoodMeters } from '../../components/Stats/MoodMeters';
 import { AvatarCanvas } from '../../components/Avatar/AvatarCanvas';
+import { LoadingSpinner } from '../../components/Loading/LoadingSpinner';
 import { motion } from 'framer-motion';
+import { getEmotionLabel } from '../../config/emotions';
 import './me.css';
 
 export function MePage() {
   const { user } = useAuth();
-  const { avatar, loadFromServer } = useAvatarStore();
+  const { emoji, overlay, loadFromServer } = useEmojiAvatarStore();
   const { values, load } = useMoodStore();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -90,13 +92,9 @@ export function MePage() {
     }
   }
 
-  const emotionLabels: Record<string, string> = {
-    happy: 'Glad',
-    calm: 'Lugn',
-    tired: 'Trött',
-    sad: 'Ledsen',
-    curious: 'Nyfiken',
-    angry: 'Arg',
+  const emotionLabels = (key: string) => {
+    const { getEmotionLabel } = require('../../config/emotions');
+    return getEmotionLabel(key);
   };
 
   return (
@@ -104,15 +102,15 @@ export function MePage() {
       <div className="card">
         <h2>Min sida</h2>
         {loading ? (
-          <p>Laddar...</p>
+          <LoadingSpinner />
         ) : !data ? (
           <p>Kunde inte ladda data.</p>
         ) : (
           <>
-            {/* Profilbild (avatar) om barn */}
+            {/* Profilbild (emoji-avatar) om barn */}
             {user?.role === 'child' && (
               <div className="me-avatar-container">
-                <AvatarCanvas data={avatar} size={160} />
+                <EmojiAvatarDisplay emoji={emoji} overlay={overlay} size={160} />
               </div>
             )}
 
@@ -135,7 +133,7 @@ export function MePage() {
               <ul style={{ listStyle: 'none', padding: 0 }}>
                 {Object.entries(data.counts || {}).map(([k, v]) => (
                   <li key={k} style={{ marginBottom: 8, padding: 8, background: '#f7f7f7', borderRadius: 8 }}>
-                    <strong>{emotionLabels[k] || k}:</strong> {v as any}
+                    <strong>{getEmotionLabel(k) || k}:</strong> {v as any}
                   </li>
                 ))}
               </ul>

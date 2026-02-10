@@ -14,7 +14,7 @@
   pointer-events: none; /* Allow clicks to pass through, except on buttons */
 }
 
-/* Logo button */
+/* Logo button / link – MindGrow icon + wordmark */
 .app-header-logo-btn {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
@@ -30,6 +30,11 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.app-header-logo-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .app-header-logo-btn:hover {
   background: rgba(255, 255, 255, 0.25);
   transform: scale(1.05);
@@ -37,6 +42,82 @@
 
 .app-header-logo-btn:active {
   transform: scale(1.02);
+}
+
+/* Right group: namn + profil + sound + menu */
+.app-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.app-header-user-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1d2b24;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 480px) {
+  .app-header-user-name {
+    max-width: 80px;
+    font-size: 0.875rem;
+  }
+}
+
+/* Profil – synlig i startläge när inloggad */
+.app-header-profile-btn {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: none;
+  border-radius: var(--mg-radius);
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.app-header-profile-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.app-header-profile-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* Ljud på/av – megafon, mindre barnslig */
+.app-header-sound-btn {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: none;
+  border-radius: var(--mg-radius);
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: var(--mg-white);
+}
+
+.app-header-sound-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.app-header-sound-btn[aria-pressed="true"] {
+  opacity: 0.85;
 }
 
 /* Hamburger menu button */
@@ -80,10 +161,15 @@
 .app-header-overlay {
   position: fixed;
   inset: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
   z-index: 200;
   animation: fadeIn 0.2s ease-out;
+  direction: ltr;
 }
 
 @keyframes fadeIn {
@@ -95,23 +181,56 @@
   }
 }
 
-/* Navigation panel - slides in from right */
+/* Navigation panel - högerkant; mobil: full bredd med left:0 right:0 så den inte hamnar utanför */
 .app-header-nav-panel {
   position: fixed;
-  right: 0;
   top: 0;
+  right: 0;
   bottom: 0;
-  width: 260px;
-  max-width: 80%;
+  left: auto;
+  width: 280px;
+  max-width: 85vw;
+  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--mg-white);
   border-radius: 24px 0 0 24px;
   box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
   padding: 24px;
+  padding-top: max(24px, env(safe-area-inset-top));
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  padding-right: max(24px, env(safe-area-inset-right));
   display: flex;
   flex-direction: column;
   z-index: 201;
   animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  margin-left: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+  .app-header-nav-panel {
+    left: auto;
+    right: 0;
+    width: 320px;
+    max-width: 85vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header-nav-panel {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+    border-radius: 0;
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+    box-sizing: border-box;
+  }
 }
 
 @keyframes slideInRight {
@@ -191,6 +310,72 @@
   flex: 1;
 }
 
+/* Adult settings – lower visual priority, calm, neutral */
+.app-header-nav-adult-settings {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(18, 129, 75, 0.12);
+}
+
+.app-header-nav-link-adult {
+  color: var(--mg-grey-text, #555) !important;
+  font-size: 0.9rem;
+}
+
+.app-header-nav-link-adult:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.app-header-nav-link-adult.active {
+  background: rgba(18, 129, 75, 0.08);
+  color: var(--mg-primary-dark) !important;
+}
+
+.nav-link-icon-gear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-link-icon-gear svg {
+  display: block;
+}
+
+/* Calm mode in menu */
+.app-header-nav-calm {
+  padding: 12px 0;
+  border-top: 1px solid rgba(18, 129, 75, 0.1);
+}
+
+.app-header-calm-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: var(--mg-radius);
+  background: rgba(18, 129, 75, 0.08);
+  color: var(--mg-primary-dark);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.app-header-calm-btn:hover {
+  background: rgba(18, 129, 75, 0.12);
+}
+
+.app-header-calm-icon {
+  font-size: 1.2rem;
+}
+
+.app-header-calm-label {
+  flex: 1;
+  text-align: left;
+}
+
 /* Footer with logout button */
 .app-header-nav-footer {
   margin-top: auto;
@@ -236,7 +421,9 @@
 
   .app-header-nav-panel {
     width: 280px;
-    max-width: 85%;
+    max-width: 85vw;
+    right: 0;
+    left: auto;
     padding: 20px;
   }
 

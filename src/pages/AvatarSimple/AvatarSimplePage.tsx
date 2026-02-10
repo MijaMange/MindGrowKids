@@ -1,113 +1,99 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
-import { useAvatarStore } from '../../state/useAvatarStore';
-import { AvatarCanvas } from '../../components/Avatar/AvatarCanvas';
-import { WardrobePanel } from '../../components/Avatar/WardrobePanel';
-import '../Avatar/avatar-editor.css';
+import { useEmojiAvatarStore } from '../../state/useEmojiAvatarStore';
+import { JourneyHeader } from '../../components/JourneyHeader/JourneyHeader';
+import { ChildFlikNav } from '../../components/ChildFlikNav/ChildFlikNav';
+import { FloatingAvatarPreview } from '../../components/FloatingAvatarPreview';
+import { EmojiPicker } from '../../components/EmojiPicker';
+import { LoadingSpinner } from '../../components/Loading/LoadingSpinner';
+import { AgeGuard } from '../../components/AgeGuard/AgeGuard';
+import { sfxClick } from '../../utils/sound';
+import '../Journey/journey.css';
+import './AvatarSimplePage.css';
 
 /**
- * AvatarSimplePage - Fullständig avatar-editor (återanvänder AvatarEditorPage)
- * 
- * Design principles:
- * - All hooks at the top, no conditional hooks
- * - Uses the existing AvatarEditorPage component logic
- * - Updated navigation to use /test-hub
+ * AvatarSimplePage – "Jag" profile: simple emoji picker
+ *
+ * - Large floating avatar preview bubble (centered)
+ * - Bottom drawer/tray with emoji grid
+ * - No accessories, no categories, just emoji selection
+ * - Autosave on selection
+ * - Child-friendly: large tap targets, clear selection
  */
 export function AvatarSimplePage() {
-  // CRITICAL: All hooks must be called at the top, before any conditional returns
-  // This ensures hooks are always called in the same order, preventing React error #310
-  // Hook 1: useNavigate
   const navigate = useNavigate();
-  // Hook 2: useAuth
   const { user } = useAuth();
-  // Hook 3: useAvatarStore
-  const { avatar, loadFromServer, saveToServer } = useAvatarStore();
-  // Hook 4: useRef
-  const svgRef = useRef<HTMLDivElement>(null);
-  // Hook 5: useEffect (load data)
+  const { emoji, setEmoji, loadFromServer, saveToServer } = useEmojiAvatarStore();
+  const [loading, setLoading] = useState(true);
+  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(() => {
-    loadFromServer();
+    async function load() {
+      setLoading(true);
+      await loadFromServer();
+      setLoading(false);
+    }
+    load();
   }, [loadFromServer]);
 
-  // Conditional redirect is fine AFTER all hooks have been called
+  function scheduleSave() {
+    if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+    saveTimeoutRef.current = setTimeout(async () => {
+      await saveToServer();
+      saveTimeoutRef.current = null;
+    }, 300);
+  }
+
+  function handleEmojiSelect(newEmoji: string) {
+    setEmoji(newEmoji);
+    sfxClick();
+    scheduleSave();
+  }
+
+  function handleBack() {
+    navigate('/hub');
+  }
+
   if (!user) {
     return <Navigate to="/" replace />;
   }
 
-  async function save() {
-    const ok = await saveToServer();
-    if (ok) {
-      alert('Sparat!');
-    } else {
-      alert('Kunde inte spara. Försök igen.');
-    }
+  if (loading) {
+    return (
+      <AgeGuard>
+        <div className="journey-root">
+          <JourneyHeader title="Jag" onBack={handleBack} />
+          <main className="journey-stage avatar-simple-main">
+            <div className="avatar-simple-loading">
+              <LoadingSpinner />
+            </div>
+          </main>
+        </div>
+      </AgeGuard>
+    );
   }
 
-  function download() {
-    // exportera SVG till PNG via canvas
-    const svg = svgRef.current?.querySelector('svg');
-    if (!svg) return;
-
-    const s = new XMLSerializer().serializeToString(svg);
-    const blob = new Blob([s], { type: 'image/svg+xml;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-
-    const img = new Image();
-    img.onload = function () {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d')!;
-      ctx.drawImage(img, 0, 0);
-      const png = canvas.toDataURL('image/png');
-      const a = document.createElement('a');
-      a.href = png;
-      a.download = 'mindgrow-avatar.png';
-      a.click();
-      URL.revokeObjectURL(url);
-    };
-    img.src = url;
-  }
+  const displayEmoji = emoji || '😊';
 
   return (
-    <div className="container">
-      <div style={{ marginBottom: '16px' }}>
-        <button
-          onClick={() => navigate('/test-hub')}
-          style={{
-            padding: '8px 16px',
-            background: '#f5f5f5',
-            border: '1px solid #ddd',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontSize: '0.9rem',
-          }}
-        >
-          ← Tillbaka till hub
-        </button>
-      </div>
-
-      <div className="card avatar-editor-layout">
-        <div ref={svgRef} className="avatar-preview">
-          <AvatarCanvas data={avatar} size={280} />
-        </div>
-        <div className="avatar-controls">
-          <h2>Jag</h2>
-          <div className="wardrobe-scroll">
-            <WardrobePanel />
+    <AgeGuard>
+      <div className="journey-root has-child-flik-nav">
+        <JourneyHeader title="Jag" onBack={handleBack} />
+        <main className="journey-stage avatar-simple-main">
+          {/* Centered floating avatar preview */}
+          <div className="avatar-preview-container">
+            <FloatingAvatarPreview emoji={displayEmoji} size={160} />
           </div>
-          <div className="avatar-actions">
-            <button className="cta next" onClick={save}>
-              Spara
-            </button>
-            <button className="cta" onClick={download}>
-              Exportera PNG
-            </button>
-          </div>
-        </div>
+          {/* In-flow emoji grid so choices are always visible (no hidden tray) */}
+          <EmojiPicker
+            variant="inline"
+            selectedEmoji={displayEmoji}
+            onEmojiSelect={handleEmojiSelect}
+          />
+        </main>
+        <ChildFlikNav />
       </div>
-    </div>
+    </AgeGuard>
   );
 }
-

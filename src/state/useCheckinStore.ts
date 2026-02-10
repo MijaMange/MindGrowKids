@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
-export type Mode = 'text' | 'drawing' | 'voice';
-export type Emotion = 'happy' | 'calm' | 'tired' | 'sad' | 'curious' | 'angry' | '';
+export type Mode = 'text' | 'drawing';
+export type Emotion = 'happy' | 'sad' | 'angry' | 'tired' | 'afraid' | 'worried' | '';
 
 interface CheckinState {
   emotion: Emotion;

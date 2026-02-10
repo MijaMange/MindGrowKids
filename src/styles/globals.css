@@ -10,6 +10,16 @@ body {
   line-height: 1.6;
 }
 
+/* En enda grön bakgrund – ingen gradient, så inga olika nyanser */
+body.mg-green-page {
+  background: #017a52;
+  min-height: 100%;
+}
+body.mg-green-page #root,
+body.mg-green-page #main-content {
+  background: transparent;
+}
+
 a:focus, button:focus, input:focus, textarea:focus {
   outline: var(--focus-width, 3px) solid var(--focus-color, #1f6f8b);
   outline-offset: 3px;
@@ -68,6 +78,25 @@ textarea:focus-visible {
   font-size: 0.9rem;
   color: var(--mg-ink, #1d2b24);
   font-weight: 600;
+}
+
+.control-btn-icon {
+  padding: 10px;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.megaphone-icon svg {
+  display: block;
 }
 
 @media (max-width: 768px) {

@@ -1,0 +1,168 @@
+/* Logo i vänstra hörnet – konsekvent i alla vyer */
+.pro-class-logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.pro-class-logo-link:focus-visible {
+  outline: 2px solid var(--mg-white);
+  outline-offset: 2px;
+  border-radius: var(--mg-radius);
+}
+
+.pro-class-header-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--mg-white);
+  margin-left: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 480px) {
+  .pro-class-header-title {
+    font-size: 0.9rem;
+    margin-left: 8px;
+  }
+}
+
+.pro-class-pill-label {
+  padding: 6px 12px;
+  font-size: var(--mg-size-eyebrow);
+}
+
+.pro-class-header-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--mg-white);
+  max-width: 140px;
+  min-width: 3ch;
+  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .pro-class-header-name {
+    max-width: 100px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Full meny – overlay + panel (samma idé som JourneyHeader) */
+.adult-shell-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.adult-shell-nav-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  width: 300px;
+  max-width: 85vw;
+  min-height: 100dvh;
+  background: #ffffff;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  padding-top: max(24px, env(safe-area-inset-top));
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 1001;
+  box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  .adult-shell-nav-panel {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+.adult-shell-close {
+  align-self: flex-end;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  font-size: 1.75rem;
+  color: #666;
+  cursor: pointer;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+
+.adult-shell-close:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.adult-shell-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.adult-shell-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  min-height: 52px;
+  text-decoration: none;
+  color: #2f2f2f;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.adult-shell-nav-link:hover,
+.adult-shell-nav-link.active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.adult-shell-nav-icon {
+  font-size: 1.5rem;
+  width: 32px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.adult-shell-nav-footer {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.adult-shell-logout {
+  width: 100%;
+  padding: 12px 24px;
+  border: none;
+  background: transparent;
+  color: #666;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.adult-shell-logout:hover {
+  background: rgba(0, 0, 0, 0.05);
+}

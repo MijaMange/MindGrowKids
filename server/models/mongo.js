@@ -11,6 +11,8 @@ const KidSchema = new mongoose.Schema(
     classCode: String, // koppling till klass
     orgId: String, // om ni använder org-scope
     linkCode: String, // permanent länkkod för föräldrar (6-siffrig)
+    dateOfBirth: { type: Date, default: null }, // Optional; used to derive ageGroup for UX
+    ageGroup: { type: String, enum: ['2-4', '4-5', '6-7', '8-10'], default: null }, // Age group for adaptive UX (can be set from DOB)
   },
   opts
 );
@@ -43,12 +45,16 @@ const CheckinSchema = new mongoose.Schema({
   classId: String,
   studentId: String, // kid._id.toString()
   emotion: String, // "happy" | ...
-  mode: String, // "text" | "voice" | "draw"
+  mode: String, // "text" | "draw"
   note: String,
   drawingRef: String,
   dateISO: String,
   createdAtISO: { type: String, default: () => new Date().toISOString() },
+  clientId: String, // Client-generated ID for duplicate detection (optional, unique per studentId)
 }, { timestamps: false });
+
+// Index for duplicate detection (clientId + studentId should be unique)
+CheckinSchema.index({ clientId: 1, studentId: 1 }, { unique: true, sparse: true });
 
 const MoodSchema = new mongoose.Schema(
   {

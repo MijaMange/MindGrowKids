@@ -7,6 +7,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const PATH = join(__dirname, '../mock-db.json');
 
+export function getFilePath() {
+  return PATH;
+}
+
 const DEFAULT = {
   users: [],
   parents: [],
@@ -55,9 +59,30 @@ export function getDbInfo() {
   return CURRENT;
 }
 
-// File helpers
+/** True om appen använder endast fil-DB (ingen MongoDB). */
+export function useFileDBOnly() {
+  return getDbInfo().mode === 'file';
+}
+
+// File helpers – return DEFAULT vid parse-fel så att API inte kraschar med 500
 export function readFileDB() {
-  return JSON.parse(readFileSync(PATH, 'utf8'));
+  try {
+    const raw = JSON.parse(readFileSync(PATH, 'utf8'));
+    return {
+      users: raw.users ?? raw.children ?? DEFAULT.users,
+      parents: raw.parents ?? DEFAULT.parents,
+      professionals: raw.professionals ?? DEFAULT.professionals,
+      kids: raw.kids ?? DEFAULT.kids,
+      checkins: raw.checkins ?? DEFAULT.checkins,
+      moods: raw.moods ?? DEFAULT.moods,
+      avatars: raw.avatars ?? DEFAULT.avatars,
+      classes: raw.classes ?? DEFAULT.classes,
+      pins: raw.pins ?? DEFAULT.pins,
+    };
+  } catch (e) {
+    console.error('[DB] readFileDB error:', e?.message);
+    return { ...DEFAULT };
+  }
 }
 
 export function writeFileDB(d) {

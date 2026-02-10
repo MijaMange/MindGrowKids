@@ -1,73 +1,72 @@
 import { Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useAuth } from '../../auth/AuthContext';
+import { useEmojiAvatarStore } from '../../state/useEmojiAvatarStore';
 import { UnifiedHubLayout } from '../../components/UnifiedHubLayout/UnifiedHubLayout';
+import { AgeGuard } from '../../components/AgeGuard/AgeGuard';
+import { AdultPageShell } from '../../components/AdultPageShell/AdultPageShell';
+import { ButtonNavList } from '../../components/ButtonNavList/ButtonNavList';
 
 /**
- * SafeHubPage - Minimal, hook-safe hub for logged-in users
- * 
- * Uses the same UnifiedHubLayout as TestHubPage for consistency
+ * SafeHubPage - Hub för inloggade användare
+ *
+ * Barn: oförändrad barn-vy (UnifiedHubLayout).
+ * Vuxen (föräldrar/lärare): samma design som Klassens statistik (emerald, glaskort, enhetlig header).
  */
 export function SafeHubPage() {
-  // CRITICAL: All hooks must be called at the top, before any conditional returns
-  // This ensures hooks are always called in the same order, preventing React error #310
-  // Hook 1: useAuth
   const { user } = useAuth();
+  const { emoji, loadFromServer } = useEmojiAvatarStore();
 
-  // Conditional redirect is fine AFTER all hooks have been called
-  // Use Navigate component to redirect if no user (prevents rendering with null user)
+  useEffect(() => {
+    if (user?.role === 'child') loadFromServer();
+  }, [user?.role, loadFromServer]);
+
   if (!user) {
     return <Navigate to="/" replace />;
   }
 
-  // Rollbaserad rendering
   const role = user.role;
 
-  // Barn-dashboard
+  // Barn-dashboard – ingen ändring, samma vy som tidigare
   if (role === 'child') {
     return (
-      <UnifiedHubLayout
-        title={`Hej ${user.name || 'där'}! 👋`}
-        subtitle="Vad vill du göra idag?"
-        actions={[
-          { icon: '💬', label: 'Hur känner jag mig idag?', to: '/app/journey-simple', color: 'primary' },
-          { icon: '📅', label: 'Mina dagar', to: '/app/diary-simple', color: 'neutral' },
-          { icon: '🙂', label: 'Jag', to: '/app/avatar-simple', color: 'accent' },
-        ]}
-      />
+      <AgeGuard>
+        <UnifiedHubLayout
+          title={`Hej, ${user.name || 'du'}!`}
+          childActions={true}
+          showLogout={false}
+          actions={[
+            { icon: '❤️ 🧠', label: 'Hur mår jag idag?', to: '/app/journey-simple' },
+            { icon: '📅', label: 'Mina dagar', to: '/app/diary-simple' },
+            { icon: emoji || '😊', label: 'Jag', to: '/app/avatar-simple' },
+          ]}
+        />
+      </AgeGuard>
     );
   }
 
-  // Föräldrar-dashboard
+  // Föräldrar – enhetlig vuxendesign (samma som Klassens statistik)
   if (role === 'parent') {
     return (
-      <UnifiedHubLayout
-        title={`Hej ${user.name || 'där'}! 👋`}
-        subtitle="Välkommen till översikten"
-        description="Översikt över ditt barns känslor."
-        actions={[
-          { icon: '👨‍👩‍👧', label: 'Mina barn', to: '/app/parent-children', color: 'neutral' },
-          { icon: '📘', label: 'Dagbok', to: '/app/diary-simple', color: 'blue' },
-        ]}
-      />
+      <AdultPageShell pillLabel="Föräldravy" title="Översikt">
+        <div className="pro-class-soft-card">
+          <h1 className="pro-class-soft-card-title" style={{ marginTop: 0 }}>Hej {user.name || 'där'}!</h1>
+          <p style={{ color: 'var(--mg-grey-text)', margin: '0 0 16px 0' }}>Översikt över dina barn.</p>
+          <ButtonNavList
+            actions={[
+              { icon: '👨‍👩‍👧', label: 'Mina barn', to: '/app/parent-children', color: 'neutral' },
+            ]}
+          />
+        </div>
+      </AdultPageShell>
     );
   }
 
-  // Lärare-dashboard
+  // Lärare – dashboard är Klassens statistik direkt
   if (role === 'pro') {
-    return (
-      <UnifiedHubLayout
-        title={`Hej ${user.name || 'där'}! 👋`}
-        subtitle="Välkommen till översikten"
-        description="Anonymiserad översikt över klassen."
-        actions={[
-          { icon: '🏫', label: 'Klassens statistik', to: '/app/pro-simple', color: 'neutral' },
-          { icon: '📘', label: 'Klassens dagbok', to: '/app/pro-diary-simple', color: 'blue' },
-        ]}
-      />
-    );
+    return <Navigate to="/app/pro-simple" replace />;
   }
 
-  // Fallback
   return <Navigate to="/" replace />;
 }
 

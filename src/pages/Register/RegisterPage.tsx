@@ -1,24 +1,29 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 import './register.css';
 
 /**
  * RegisterPage - Separate registration flow
  * 
- * Allows role selection only during registration
- * Keeps login minimal and calm
+ * Supports ?role=child from landing "Skapa konto" so barn can pre-select child role.
  */
 export function RegisterPage() {
   const nav = useNavigate();
-  const { setUser } = useAuth();
+  const [searchParams] = useSearchParams();
+  const { setUser, login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [classCode, setClassCode] = useState('');
-  const [role, setRole] = useState<'child' | 'parent' | 'pro'>('child');
+  const [role, setRole] = useState<'child' | 'parent'>('child');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    const r = searchParams.get('role');
+    if (r === 'child' || r === 'parent') setRole(r);
+  }, [searchParams]);
 
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault();
@@ -60,11 +65,14 @@ export function RegisterPage() {
       }
 
       if (r.ok) {
-        const userData = { role: d.role, name: d.name, classCode: d.classCode };
-        setUser(userData);
-        // Redirect based on role
-        const redirectPath = d.role === 'child' ? '/dashboard' : d.role === 'parent' ? '/parent' : '/pro';
-        setTimeout(() => nav(redirectPath), 100);
+        // Logga in med samma uppgifter så session och cookie sätts
+        const loginResult = await login({ username, password });
+        if (loginResult.success) {
+          const redirectPath = d.role === 'child' ? '/dashboard' : '/parent';
+          setTimeout(() => nav(redirectPath), 100);
+        } else {
+          setError(loginResult.error || 'Registrering lyckades men inloggning misslyckades.');
+        }
       } else {
         const errorMsg = d?.message || d?.error || 'Registrering misslyckades';
         if (d?.error === 'email_exists') {
@@ -81,6 +89,12 @@ export function RegisterPage() {
     }
   }
 
+  const errorId = 'register-error';
+  const usernameId = 'register-username';
+  const passwordId = 'register-password';
+  const nameId = 'register-name';
+  const classCodeId = 'register-classcode';
+
   return (
     <div className="register-page">
       <div className="register-container">
@@ -88,14 +102,18 @@ export function RegisterPage() {
           ← Tillbaka
         </Link>
         
-        <form onSubmit={handleRegister} className="register-form">
+        <form onSubmit={handleRegister} className="register-form" noValidate>
           <h1 className="register-title">Skapa konto</h1>
           
-          {error && (
-            <div className="register-error" role="alert">
-              {error}
-            </div>
-          )}
+          <div 
+            id={errorId}
+            className="register-error" 
+            role="alert"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            {error && error}
+          </div>
 
           <div className="register-role-select">
             <button
@@ -112,63 +130,86 @@ export function RegisterPage() {
             >
               Förälder
             </button>
-            <button
-              type="button"
-              className={`register-role-btn ${role === 'pro' ? 'active' : ''}`}
-              onClick={() => setRole('pro')}
-            >
-              Lärare
-            </button>
           </div>
 
-          <input
-            type="text"
-            className="register-input"
-            placeholder="Användarnamn"
-            value={username}
-            onChange={(e) => {
-              setUsername(e.target.value);
-              setError('');
-            }}
-            autoComplete="username"
-            required
-            disabled={loading}
-          />
-
-          <input
-            type="password"
-            className="register-input"
-            placeholder="Lösenord"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setError('');
-            }}
-            autoComplete="new-password"
-            required
-            disabled={loading}
-          />
-
-          <input
-            type="text"
-            className="register-input"
-            placeholder="Namn (valfritt)"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            autoComplete="name"
-            disabled={loading}
-          />
-
-          {role === 'child' && (
+          <div>
+            <label htmlFor={usernameId} className="sr-only">
+              Användarnamn
+            </label>
             <input
+              id={usernameId}
               type="text"
               className="register-input"
-              placeholder="Klasskod (valfritt)"
-              value={classCode}
-              onChange={(e) => setClassCode(e.target.value)}
-              autoComplete="off"
+              placeholder="Användarnamn"
+              value={username}
+              onChange={(e) => {
+                setUsername(e.target.value);
+                setError('');
+              }}
+              autoComplete="username"
+              required
+              aria-required="true"
+              aria-invalid={error ? 'true' : 'false'}
+              aria-describedby={error ? errorId : undefined}
               disabled={loading}
             />
+          </div>
+
+          <div>
+            <label htmlFor={passwordId} className="sr-only">
+              Lösenord
+            </label>
+            <input
+              id={passwordId}
+              type="password"
+              className="register-input"
+              placeholder="Lösenord"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setError('');
+              }}
+              autoComplete="new-password"
+              required
+              aria-required="true"
+              aria-invalid={error ? 'true' : 'false'}
+              aria-describedby={error ? errorId : undefined}
+              disabled={loading}
+            />
+          </div>
+
+          <div>
+            <label htmlFor={nameId} className="sr-only">
+              Namn (valfritt)
+            </label>
+            <input
+              id={nameId}
+              type="text"
+              className="register-input"
+              placeholder="Namn (valfritt)"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              autoComplete="name"
+              disabled={loading}
+            />
+          </div>
+
+          {role === 'child' && (
+            <div>
+              <label htmlFor={classCodeId} className="sr-only">
+                Klasskod (valfritt)
+              </label>
+              <input
+                id={classCodeId}
+                type="text"
+                className="register-input"
+                placeholder="Klasskod (valfritt)"
+                value={classCode}
+                onChange={(e) => setClassCode(e.target.value)}
+                autoComplete="off"
+                disabled={loading}
+              />
+            </div>
           )}
 
           <button

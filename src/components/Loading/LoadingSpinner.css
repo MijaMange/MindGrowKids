@@ -1,0 +1,140 @@
+@import '../../styles/design-system.css';
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  font-family: var(--mg-font-family);
+}
+
+.loading-spinner-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-spinner-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--mg-primary);
+  animation: loading-dot-pulse 1.4s ease-in-out infinite;
+}
+
+.loading-spinner-dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.loading-spinner-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-spinner-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes loading-dot-pulse {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.loading-spinner-label {
+  font-size: var(--mg-size-supporting);
+  color: var(--mg-grey-text);
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Size variants */
+.loading-spinner-sm .loading-spinner-dot {
+  width: 6px;
+  height: 6px;
+}
+
+.loading-spinner-sm .loading-spinner-label {
+  font-size: 0.875rem;
+}
+
+.loading-spinner-sm {
+  gap: 12px;
+  padding: 16px;
+}
+
+.loading-spinner-md .loading-spinner-dot {
+  width: 10px;
+  height: 10px;
+}
+
+.loading-spinner-md .loading-spinner-label {
+  font-size: var(--mg-size-supporting);
+}
+
+.loading-spinner-lg .loading-spinner-dot {
+  width: 14px;
+  height: 14px;
+}
+
+.loading-spinner-lg .loading-spinner-label {
+  font-size: 1.125rem;
+}
+
+.loading-spinner-lg {
+  gap: 20px;
+  padding: 32px;
+}
+
+/* Reduced motion - show static dots instead of animation */
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner-dot {
+    animation: none !important;
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  
+  /* Add a subtle pulse for reduced motion users */
+  .loading-spinner-dots {
+    animation: loading-static-pulse 2s ease-in-out infinite;
+  }
+}
+
+@keyframes loading-static-pulse {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Dark background variant (for use on gradient backgrounds) */
+.loading-spinner-on-dark {
+  color: var(--mg-white);
+}
+
+.loading-spinner-on-dark .loading-spinner-dot {
+  background: var(--mg-white);
+  opacity: 0.7;
+}
+
+.loading-spinner-on-dark .loading-spinner-label {
+  color: var(--mg-grey-text);
+}
+
+/* Light background variant (for use on white/light backgrounds) */
+.loading-spinner-on-light .loading-spinner-dot {
+  background: var(--mg-primary);
+}
+
+.loading-spinner-on-light .loading-spinner-label {
+  color: #555;
+}

@@ -6,19 +6,11 @@ import { sfxClick, sfxSuccess, sfxWhoosh } from '../../utils/sound';
 import { speak, stopSpeak } from '../../utils/tts';
 import { useAuth } from '../../auth/AuthContext';
 import { useMoodStore } from '../../state/useMoodStore';
+import { BASE_EMOTIONS } from '../../config/emotions';
 import './journey.css';
 
 type Step = 1 | 2 | 3;
-type Emotion = 'happy' | 'calm' | 'tired' | 'sad' | 'curious' | 'angry' | '';
-
-const EMOS = [
-  { key: 'happy', label: 'Glad', emoji: '😊' },
-  { key: 'calm', label: 'Lugn', emoji: '🫶' },
-  { key: 'tired', label: 'Trött', emoji: '😪' },
-  { key: 'sad', label: 'Ledsen', emoji: '😔' },
-  { key: 'curious', label: 'Nyfiken', emoji: '🧐' },
-  { key: 'angry', label: 'Arg', emoji: '😠' },
-];
+type Emotion = 'happy' | 'sad' | 'angry' | 'tired' | 'afraid' | 'worried' | '';
 
 export default function FeelingJourney() {
   const navigate = useNavigate();
@@ -54,7 +46,7 @@ export default function FeelingJourney() {
 
       // Spara checkin till API
       try {
-        const mode = drawingUrl ? 'draw' : note ? 'text' : 'voice';
+        const mode = drawingUrl ? 'draw' : 'text';
         const response = await fetch('/api/checkins', {
           method: 'POST',
           credentials: 'include',
@@ -134,19 +126,19 @@ export default function FeelingJourney() {
                 Ta en djup andetag och känn efter i din kropp. Hur mår den?
               </p>
               <div className="emoji-wheel">
-                <div className="emoji-grid">
-                  {EMOS.map((e) => (
+                <div className="emoji-grid emotion-grid-final" role="group" aria-label="Välj hur du mår">
+                  {BASE_EMOTIONS.map((e) => (
                     <button
                       key={e.key}
-                      className={`emoji-btn ${emotion === e.key ? 'active' : ''}`}
+                      className={`emoji-btn emotion-card ${emotion === e.key ? 'active' : ''}`}
                       onClick={() => {
                         setEmotion(e.key as any);
                         sfxClick();
                       }}
                       aria-pressed={emotion === e.key}
                     >
-                      <div style={{ fontSize: '1.4rem' }}>{e.emoji}</div>
-                      <div style={{ fontWeight: 800 }}>{e.label}</div>
+                      <div className="emoji-chip" style={{ fontSize: '1.4rem' }}>{e.emoji}</div>
+                      <span className="emotion-card-label">{e.label}</span>
                     </button>
                   ))}
                 </div>
@@ -169,22 +161,22 @@ export default function FeelingJourney() {
           {step === 2 && (
             <StepCard key="s2" title="Vilken känsla passar bäst?">
               <p className="step-help-text">
-                Du har valt: <strong>{EMOS.find(e => e.key === emotion)?.label}</strong>
+                Du har valt: <strong>{BASE_EMOTIONS.find(e => e.key === emotion)?.label}</strong>
               </p>
               <div className="emoji-wheel">
-                <div className="emoji-grid">
-                  {EMOS.map((e) => (
+                <div className="emoji-grid emotion-grid-final" role="group" aria-label="Välj hur du mår">
+                  {BASE_EMOTIONS.map((e) => (
                     <button
                       key={e.key}
-                      className={`emoji-btn ${emotion === e.key ? 'active' : ''}`}
+                      className={`emoji-btn emotion-card ${emotion === e.key ? 'active' : ''}`}
                       onClick={() => {
                         setEmotion(e.key as any);
                         sfxClick();
                       }}
                       aria-pressed={emotion === e.key}
                     >
-                      <div style={{ fontSize: '1.4rem' }}>{e.emoji}</div>
-                      <div style={{ fontWeight: 800 }}>{e.label}</div>
+                      <div className="emoji-chip" style={{ fontSize: '1.4rem' }}>{e.emoji}</div>
+                      <span className="emotion-card-label">{e.label}</span>
                     </button>
                   ))}
                 </div>

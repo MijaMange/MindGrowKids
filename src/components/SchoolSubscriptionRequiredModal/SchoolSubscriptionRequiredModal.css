@@ -1,0 +1,97 @@
+/* SchoolSubscriptionRequiredModal – shown when school already has a class trial */
+
+.school-subscription-required-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  padding: 24px;
+}
+
+.school-subscription-required-content {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 24px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.school-subscription-required-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #666;
+  cursor: pointer;
+  padding: 4px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s;
+}
+
+.school-subscription-required-close:hover {
+  background: #f0f0f0;
+  color: #2f2f2f;
+}
+
+.school-subscription-required-title {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2f2f2f;
+}
+
+.school-subscription-required-message {
+  margin: 0 0 24px;
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.school-subscription-required-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.school-subscription-required-cta-primary {
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 2px solid var(--mg-good, #1CBF82);
+  background: rgba(28, 191, 130, 0.12);
+  color: var(--mg-primary-dark, #12824b);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.school-subscription-required-cta-primary:hover {
+  background: rgba(28, 191, 130, 0.2);
+}
+
+.school-subscription-required-cta-secondary {
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: transparent;
+  color: #555;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.school-subscription-required-cta-secondary:hover {
+  background: #f5f5f5;
+}

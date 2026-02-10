@@ -23,17 +23,17 @@ export default function StepSummary() {
     playSuccess();
 
     try {
-      // Mappa svenska känslor till engelska för API
+      // Mappa svenska känslor till API-nycklar (6 grundkänslor)
       const emotionMap: Record<string, string> = {
         glad: 'happy',
-        lugn: 'calm',
-        trött: 'tired',
         ledsen: 'sad',
-        nyfiken: 'curious',
         arg: 'angry',
+        trött: 'tired',
+        rädd: 'afraid',
+        orolig: 'worried',
       };
 
-      const apiEmotion = emotionMap[emotion || 'lugn'] || 'calm';
+      const apiEmotion = emotionMap[emotion || 'glad'] || 'happy';
 
       await apiFetch('/api/checkins', {
         method: 'POST',

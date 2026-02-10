@@ -1,33 +1,24 @@
 import styles from './EmotionPicker.module.css';
 import { Emotion } from '../../state/useCheckinStore';
-
-const EMOTIONS = ['happy','calm','tired','sad','curious','angry'] as const;
+import { BASE_EMOTIONS } from '../../config/emotions';
 
 export function EmotionPicker({
   value, onSelect
 }: { value: Emotion; onSelect: (e: Emotion) => void }) {
   return (
-    <div className={styles.wrapper} role="group" aria-label="Choose your feeling">
-      {EMOTIONS.map((e) => (
+    <div className={styles.wrapper} role="group" aria-label="Välj hur du mår">
+      {BASE_EMOTIONS.map((e) => (
         <button
-          key={e}
+          key={e.key}
           type="button"
-          className={`${styles.btn} ${value===e ? styles.active : ''}`}
-          onClick={() => onSelect(e)}
-          aria-pressed={value===e}
+          className={`${styles.btn} ${value === e.key ? styles.active : ''}`}
+          onClick={() => onSelect(e.key)}
+          aria-pressed={value === e.key}
         >
-          {iconFor(e)} <span className={styles.label}>{capitalize(e)}</span>
+          {e.emoji} <span className={styles.label}>{e.label}</span>
         </button>
       ))}
     </div>
   );
-}
-
-function capitalize(s: string){ return s[0].toUpperCase() + s.slice(1); }
-function iconFor(e: string){
-  const map: Record<string, string> = {
-    happy:'😊', calm:'🫶', tired:'😪', sad:'😔', curious:'🧐', angry:'😠',
-  };
-  return map[e] ?? '🙂';
 }
 

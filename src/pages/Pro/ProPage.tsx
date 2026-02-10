@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Doughnut, Line } from 'react-chartjs-2';
-import './pro.css';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -11,6 +10,9 @@ import {
   LinearScale,
   CategoryScale,
 } from 'chart.js';
+import { LoadingSpinner } from '../../components/Loading/LoadingSpinner';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
+import './pro.css';
 
 ChartJS.register(
   ArcElement,
@@ -146,7 +148,7 @@ export function ProPage() {
     return (
       <div className="container">
         <div className="card">
-          <p>Laddar...</p>
+          <LoadingSpinner />
         </div>
       </div>
     );
@@ -178,7 +180,7 @@ export function ProPage() {
               <strong>Klasskod:</strong> <span style={{ fontFamily: 'monospace', fontSize: '1.2em', fontWeight: 700 }}>{code}</span>
             </div>
             <img
-              alt="QR"
+              alt="QR-kod för klassloggning"
               src={`/api/classes/${code}/qrcode`}
               style={{ width: 160, height: 160, border: '1px solid #ddd', borderRadius: 8 }}
             />
@@ -251,9 +253,12 @@ export function ProPage() {
           {labels.length > 0 ? (
             <Doughnut data={doughnutData} />
           ) : (
-            <p style={{ color: '#666', textAlign: 'center', padding: 40 }}>
-              Ingen data ännu. Anteckningar visas här när de skapas.
-            </p>
+            <EmptyState
+              title="Ingen data ännu"
+              description="Anteckningar visas här när elever börjar använda appen."
+              icon="📊"
+              className="empty-state-in-card"
+            />
           )}
         </div>
       </div>
@@ -281,7 +286,12 @@ export function ProPage() {
               }}
             />
           ) : (
-            <p style={{ color: '#666', textAlign: 'center', padding: 40 }}>Ingen tidsdata ännu.</p>
+            <EmptyState
+              title="Ingen tidsdata ännu"
+              description="När elever börjar använda appen visas trender här."
+              icon="📈"
+              className="empty-state-in-card"
+            />
           )}
         </div>
       </div>

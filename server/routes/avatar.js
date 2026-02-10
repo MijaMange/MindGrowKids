@@ -11,13 +11,16 @@ const USE_MONGO = !!(mongoose.connection && mongoose.connection.readyState === 1
 // Hämta nuvarande barns avatar
 avatar.get('/avatar/me', authRequired, roleRequired('child'), async (req, res) => {
   if (USE_MONGO) {
-    let doc = await Avatar.findOne({ childRef: req.user.id });
+    const doc = await Avatar.findOne({ childRef: req.user.id });
     return res.json(doc?.data || {});
   }
 
   const db = readFileDB();
-  const child = db.children.find((c) => c.id === req.user.id);
-  return res.json(child?.avatar || {});
+  const row = (db.avatars || []).find((a) => a.childRef === req.user.id);
+  if (row) return res.json(row.data || {});
+  // Fallback: kolla om barnet finns i kids (äldre struktur med avatar på kid)
+  const kid = (db.kids || []).find((k) => k.id === req.user.id);
+  return res.json(kid?.avatar || {});
 });
 
 // Spara avatar för barnet
@@ -25,7 +28,7 @@ avatar.post('/avatar/me', authRequired, roleRequired('child'), async (req, res) 
   const payload = req.body || {};
 
   if (USE_MONGO) {
-    const doc = await Avatar.findOneAndUpdate(
+    await Avatar.findOneAndUpdate(
       { childRef: req.user.id },
       { $set: { data: payload } },
       { upsert: true, new: true }
@@ -34,13 +37,23 @@ avatar.post('/avatar/me', authRequired, roleRequired('child'), async (req, res) 
   }
 
   const db = readFileDB();
-  const i = db.children.findIndex((c) => c.id === req.user.id);
+  db.avatars = db.avatars || [];
+  const i = db.avatars.findIndex((a) => a.childRef === req.user.id);
   if (i > -1) {
-    db.children[i].avatar = payload;
-    writeFileDB(db);
-    return res.json({ ok: true });
+    db.avatars[i].data = payload;
+  } else {
+    db.avatars.push({ childRef: req.user.id, data: payload });
   }
-  res.status(404).json({ error: 'child_not_found' });
+  if (payload.emoji != null) {
+    const kid = (db.kids || []).find((k) => k.id === req.user.id);
+    if (kid) {
+      kid.emoji = typeof payload.emoji === 'string' ? payload.emoji : String(payload.emoji || '👤');
+      const ki = db.kids.findIndex((k) => k.id === req.user.id);
+      if (ki >= 0) db.kids[ki] = kid;
+    }
+  }
+  writeFileDB(db);
+  return res.json({ ok: true });
 });
 
 

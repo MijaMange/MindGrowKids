@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../auth/AuthContext';
+import { LoadingSpinner } from '../../components/Loading/LoadingSpinner';
 import './DiagnosticsPage.css';
 
 interface DiagnosticData {
@@ -224,7 +225,7 @@ export function DiagnosticsPage() {
       <div className="container">
         <div className="card">
           <h2>Diagnostik (Development)</h2>
-          <p>Laddar...</p>
+          <LoadingSpinner />
         </div>
       </div>
     );
@@ -398,7 +399,7 @@ export function DiagnosticsPage() {
                   {data.linking.availablePins[0].value}
                 </div>
               ) : (
-                <span>Laddar...</span>
+                <LoadingSpinner size="sm" />
               )}
             </div>
           </div>

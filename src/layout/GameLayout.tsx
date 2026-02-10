@@ -3,8 +3,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { playPling } from '../utils/sound';
 import { Logo } from '../components/Logo/Logo';
 import { useAuth } from '../auth/AuthContext';
-import { useAvatarStore } from '../state/useAvatarStore';
-import { AvatarCanvas } from '../components/Avatar/AvatarCanvas';
+import { useEmojiAvatarStore } from '../state/useEmojiAvatarStore';
 import { SettingsDrawer } from '../components/Settings/SettingsDrawer';
 import { BottomNav } from '../components/BottomNav/BottomNav';
 import './game-layout.css';
@@ -49,8 +48,7 @@ export function GameLayout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Conditional logic inside useEffect is fine - the hook itself is always called
     if (role === 'child') {
-      // Load avatar asynchronously - loadFromServer already handles errors internally
-      loadFromServer();
+      loadFromServer(); // emoji avatar
     }
   }, [role, loadFromServer]);
 

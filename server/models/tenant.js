@@ -41,12 +41,16 @@ const CheckinSchema = new mongoose.Schema({
     enum: ['happy', 'calm', 'tired', 'sad', 'curious', 'angry'],
     required: true,
   },
-  mode: { type: String, enum: ['text', 'voice', 'draw'], required: true },
+  mode: { type: String, enum: ['text', 'draw'], required: true },
   note: String,
   drawingRef: String,
   dateISO: { type: String, required: true },
   createdAt: { type: String, default: () => new Date().toISOString() },
+  clientId: String, // Client-generated ID for duplicate detection (optional, unique per studentId)
 });
+
+// Index for duplicate detection (clientId + studentId should be unique)
+CheckinSchema.index({ clientId: 1, studentId: 1 }, { unique: true, sparse: true });
 
 export const Org = mongoose.models.Org || mongoose.model('Org', OrgSchema, col('orgs'));
 export const Class = mongoose.models.Class || mongoose.model('Class', ClassSchema, col('classes'));

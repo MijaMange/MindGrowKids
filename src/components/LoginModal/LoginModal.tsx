@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 import './LoginModal.css';
 
 interface LoginModalProps {
@@ -24,6 +25,12 @@ export function LoginModal({ isOpen, onClose, onSuccess }: LoginModalProps) {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const errorId = 'login-modal-error';
+  const usernameId = 'login-modal-username';
+  const passwordId = 'login-modal-password';
+
+  // Focus trap for accessibility
+  const modalRef = useFocusTrap(isOpen, onClose);
 
   // Conditional return is fine AFTER all hooks have been called
   // This ensures hooks are always called in the same order regardless of isOpen
@@ -40,19 +47,16 @@ export function LoginModal({ isOpen, onClose, onSuccess }: LoginModalProps) {
 
     setLoading(true);
     try {
-      const success = await login({ username, password });
-      if (success) {
-        // Close modal first
+      const result = await login({ username, password });
+      if (result.success) {
         onSuccess();
         onClose();
-        // Navigate to hub after successful login
-        // Use setTimeout to ensure state is fully updated
         console.log('[LoginModal] Login successful, navigating to /hub');
         setTimeout(() => {
           navigate('/hub', { replace: true });
         }, 50);
       } else {
-        setError('Fel användarnamn eller lösenord');
+        setError(result.error);
       }
     } catch (err) {
       setError('Ett fel uppstod: ' + (err instanceof Error ? err.message : 'Okänt fel'));
@@ -62,40 +66,74 @@ export function LoginModal({ isOpen, onClose, onSuccess }: LoginModalProps) {
   }
 
   return (
-    <div className="login-modal-overlay" onClick={onClose}>
-      <div className="login-modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="login-modal-close" onClick={onClose} aria-label="Stäng">
+    <div className="login-modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
+      <div 
+        ref={modalRef}
+        className="login-modal-content" 
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button 
+          className="login-modal-close" 
+          onClick={onClose} 
+          aria-label="Stäng inloggningsdialog"
+        >
           ×
         </button>
-        <h2 className="login-modal-title">Logga in</h2>
-        <form onSubmit={handleSubmit} className="login-modal-form">
-          <input
-            type="text"
-            className="login-modal-input"
-            placeholder="Användarnamn"
-            value={username}
-            onChange={(e) => {
-              setUsername(e.target.value);
-              setError('');
-            }}
-            autoComplete="username"
-            required
-            disabled={loading}
-          />
-          <input
-            type="password"
-            className="login-modal-input"
-            placeholder="Lösenord"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setError('');
-            }}
-            autoComplete="current-password"
-            required
-            disabled={loading}
-          />
-          {error && <p className="login-modal-error">{error}</p>}
+        <h2 id="login-modal-title" className="login-modal-title">Logga in</h2>
+        <form onSubmit={handleSubmit} className="login-modal-form" noValidate>
+          <div>
+            <label htmlFor={usernameId} className="sr-only">
+              Användarnamn
+            </label>
+            <input
+              id={usernameId}
+              type="text"
+              className="login-modal-input"
+              placeholder="Användarnamn"
+              value={username}
+              onChange={(e) => {
+                setUsername(e.target.value);
+                setError('');
+              }}
+              autoComplete="email"
+              required
+              aria-required="true"
+              aria-invalid={error ? 'true' : 'false'}
+              aria-describedby={error ? errorId : undefined}
+              disabled={loading}
+            />
+          </div>
+          <div>
+            <label htmlFor={passwordId} className="sr-only">
+              Lösenord
+            </label>
+            <input
+              id={passwordId}
+              type="password"
+              className="login-modal-input"
+              placeholder="Lösenord"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setError('');
+              }}
+              autoComplete="current-password"
+              required
+              aria-required="true"
+              aria-invalid={error ? 'true' : 'false'}
+              aria-describedby={error ? errorId : undefined}
+              disabled={loading}
+            />
+          </div>
+          <div 
+            id={errorId}
+            className="login-modal-error" 
+            role="alert"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            {error && error}
+          </div>
           <button
             type="submit"
             className="login-modal-button"

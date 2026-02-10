@@ -1,5 +1,12 @@
+import { isMuted } from './sound';
+
+/**
+ * Läser upp text med webbläsarens talmotor (sv-SE).
+ * Respekterar appens "Ljud av"-inställning – när ljud är av anropas ingen tal.
+ */
 export function speak(text: string) {
   if (!('speechSynthesis' in window)) return;
+  if (isMuted()) return;
 
   const trimmed = (text || '').trim();
   if (!trimmed) return;

@@ -12,6 +12,8 @@ import {
   CategoryScale,
 } from 'chart.js';
 import { useAuth } from '../../auth/AuthContext';
+import { LoadingSpinner } from '../../components/Loading/LoadingSpinner';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 import './AdultDashboard.css';
 
 ChartJS.register(
@@ -122,7 +124,7 @@ export function AdultDashboard({ role }: AdultDashboardProps) {
 
       {loading ? (
         <div className="adult-dashboard-loading">
-          <p>Laddar data...</p>
+          <LoadingSpinner />
         </div>
       ) : (
         <>
@@ -140,7 +142,12 @@ export function AdultDashboard({ role }: AdultDashboardProps) {
                 {labels.length > 0 ? (
                   <Doughnut data={doughnutData} options={{ maintainAspectRatio: true }} />
                 ) : (
-                  <p className="adult-dashboard-empty">Ingen data ännu.</p>
+                  <EmptyState
+                    title="Ingen data ännu"
+                    description="När ditt barn börjar använda appen visas känslofördelning här."
+                    icon="📊"
+                    className="empty-state-in-card"
+                  />
                 )}
               </div>
             </div>
@@ -173,7 +180,12 @@ export function AdultDashboard({ role }: AdultDashboardProps) {
                     options={{ maintainAspectRatio: true }}
                   />
                 ) : (
-                  <p className="adult-dashboard-empty">Ingen tidsdata ännu.</p>
+                  <EmptyState
+                    title="Ingen tidsdata ännu"
+                    description="När ditt barn börjar använda appen visas trender här."
+                    icon="📈"
+                    className="empty-state-in-card"
+                  />
                 )}
               </div>
             </div>

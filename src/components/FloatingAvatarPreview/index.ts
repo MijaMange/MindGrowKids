@@ -1,0 +1,1 @@
+export { FloatingAvatarPreview } from './FloatingAvatarPreview';

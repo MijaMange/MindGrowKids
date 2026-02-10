@@ -26,7 +26,7 @@ export async function getDefaultOrg() {
   return org;
 }
 
-// createCheckin({orgId,classId,studentId,emotion,mode,note?,drawingRef?,dateISO})
+// createCheckin({orgId,classId,studentId,emotion,mode,note?,drawingRef?,dateISO,clientId?})
 export async function createCheckin({
   orgId,
   classId,
@@ -36,6 +36,7 @@ export async function createCheckin({
   note,
   drawingRef,
   dateISO,
+  clientId,
 }) {
   const now = new Date().toISOString();
   const checkinData = {
@@ -48,15 +49,34 @@ export async function createCheckin({
     drawingRef: drawingRef || '',
     dateISO: dateISO || now,
     createdAt: now,
+    clientId: clientId || undefined, // Optional clientId for duplicate detection
   };
 
   if (isMongoConnected()) {
+    // Check for duplicate if clientId is provided
+    if (clientId) {
+      const existing = await Checkin.findOne({ clientId, studentId });
+      if (existing) {
+        // Return existing checkin to avoid duplicate
+        return existing.toObject();
+      }
+    }
     const checkin = await Checkin.create(checkinData);
     return checkin.toObject();
   }
 
+  // File-based DB: check for duplicates
   const db = readFileDB();
   db.checkins = db.checkins || [];
+  
+  if (clientId) {
+    const existing = db.checkins.find((c) => c.clientId === clientId && c.studentId === studentId);
+    if (existing) {
+      // Return existing checkin to avoid duplicate
+      return existing;
+    }
+  }
+  
   const checkin = {
     id: `checkin-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
     ...checkinData,

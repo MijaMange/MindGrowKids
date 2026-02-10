@@ -1,0 +1,28 @@
+@import '../../styles/design-system.css';
+
+/* Skip to content link - hidden by default, visible on focus */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--mg-primary);
+  color: var(--mg-white);
+  padding: 8px 16px;
+  text-decoration: none;
+  font-family: var(--mg-font-family);
+  font-weight: 600;
+  font-size: 0.9rem;
+  z-index: 1000;
+  border-radius: 0 0 4px 0;
+  transition: top 0.2s ease;
+}
+
+.skip-to-content:focus {
+  top: 0;
+  outline: 3px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+.skip-to-content:focus:not(:focus-visible) {
+  top: -40px;
+}

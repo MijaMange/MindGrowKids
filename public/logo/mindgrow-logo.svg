@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300" aria-label="MindGrow logotyp">
+  <!-- Icon: rounded square -->
+  <rect x="20" y="20" width="260" height="260" rx="50" stroke="#FFFFFF" stroke-width="16" fill="none"/>
+  <!-- Icon: eye -->
+  <path d="M75 150 C110 95 190 95 225 150 C190 205 110 205 75 150 Z" stroke="#FFFFFF" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Icon: heart -->
+  <path d="M150 138 C144 128 132 128 132 145 C132 160 150 174 150 174 C150 174 168 160 168 145 C168 128 156 128 150 138 Z" fill="#B6E6D2"/>
+  <!-- Wordmark MINDGROW -->
+  <text x="300" y="195" font-family="Quicksand, system-ui, sans-serif" font-size="42" font-weight="700" letter-spacing="0.08em" fill="#FFFFFF" text-anchor="start">MINDGROW</text>
+</svg>

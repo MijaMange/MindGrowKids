@@ -4,26 +4,22 @@ import { format, isSameDay, eachDayOfInterval, subDays } from 'date-fns';
 import { sv } from 'date-fns/locale';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../auth/AuthContext';
-import { useAvatarStore } from '../../state/useAvatarStore';
-import { AvatarCanvas } from '../../components/Avatar/AvatarCanvas';
+import { useEmojiAvatarStore } from '../../state/useEmojiAvatarStore';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
+import { AgeGuard } from '../../components/AgeGuard/AgeGuard';
+import { JourneyHeader } from '../../components/JourneyHeader/JourneyHeader';
+import { ChildFlikNav } from '../../components/ChildFlikNav/ChildFlikNav';
+import { getEmotionEmoji, getEmotionLabel } from '../../config/emotions';
+import '../Journey/journey.css';
 import '../Diary/diary.css';
-
-const EMOTION_EMOJIS: Record<string, string> = {
-  happy: '😊',
-  calm: '🫶',
-  tired: '😪',
-  sad: '😔',
-  curious: '🧐',
-  angry: '😠',
-};
 
 const EMOTION_COLORS: Record<string, string> = {
   happy: '#FFE66D',
-  calm: '#B7D9CF',
-  tired: '#D4C5E8',
   sad: '#A8DADC',
-  curious: '#FFB3BA',
   angry: '#FF9A8B',
+  tired: '#D4C5E8',
+  afraid: '#D4C4E8',
+  worried: '#FFE4B5',
 };
 
 /**
@@ -41,8 +37,8 @@ export function DiarySimplePage() {
   const navigate = useNavigate();
   // Hook 2: useAuth
   const { user } = useAuth();
-  // Hook 3: useAvatarStore
-  const { avatar, loadFromServer } = useAvatarStore();
+  // Hook 3: useEmojiAvatarStore (for child identity; diary does not render avatar)
+  const { loadFromServer } = useEmojiAvatarStore();
   // Hook 4: useState (date)
   const [date, setDate] = useState<Date>(new Date());
   // Hook 5: useState (rows)
@@ -78,10 +74,19 @@ export function DiarySimplePage() {
     }
   }
 
-  // Hook 9: useEffect (load data)
+  // Hook 9: useEffect (load data on mount)
   useEffect(() => {
     loadFromServer();
     load();
+  }, []);
+
+  // Refetch when user returns to this tab (e.g. after saving from "Hur mår jag idag?")
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') load();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
   }, []);
 
   // Hook 10: useMemo (todays)
@@ -113,9 +118,9 @@ export function DiarySimplePage() {
     if (!note.trim()) return;
     setLoading(true);
     try {
-      // Spara som en ny checkin med emotion från dagens första checkin (eller calm som default)
+      // Spara som en ny checkin med emotion från dagens första checkin (eller happy som default)
       const body = {
-        emotion: todays[0]?.emotion || 'calm',
+        emotion: todays[0]?.emotion || 'happy',
         mode: 'text',
         note: note.trim(),
         dateISO: date.toISOString(),
@@ -140,27 +145,19 @@ export function DiarySimplePage() {
   const selectedDayData = recentDays.find((d) => isSameDay(d.date, date));
 
   return (
-    <div className="diary-container">
-      <div style={{ marginBottom: '16px' }}>
-        <button
-          onClick={() => navigate('/test-hub')}
-          style={{
-            padding: '8px 16px',
-            background: '#f5f5f5',
-            border: '1px solid #ddd',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontSize: '0.9rem',
-          }}
-        >
-          ← Tillbaka till hub
-        </button>
-      </div>
-
-      <div className="diary-header">
-        <h1>Mina dagar</h1>
-        <p className="diary-subtitle">Se dina känslor och anteckningar över tid</p>
-      </div>
+    <AgeGuard>
+      <div className="journey-root diary-page-root">
+        <JourneyHeader
+          title="Mina dagar"
+          showStepCounter={false}
+          onBack={() => navigate('/hub')}
+        />
+        <main className="journey-stage diary-stage">
+          <div className="diary-container">
+            <div className="diary-header">
+              <h1><span className="diary-title-emoji" aria-hidden="true">📅</span> Mina dagar</h1>
+              <p className="diary-subtitle">Se dina känslor och anteckningar över tid</p>
+            </div>
 
       {/* Visual day cards */}
       <div className="diary-days-grid">
@@ -191,7 +188,7 @@ export function DiarySimplePage() {
                 {dayData.emotion ? (
                   <>
                     <span className="diary-day-emoji">
-                      {EMOTION_EMOJIS[dayData.emotion] || '💭'}
+                      {getEmotionEmoji(dayData.emotion)}
                     </span>
                     <span className="diary-day-count">
                       {dayData.checkins.length > 0 ? dayData.checkins.length : ''}
@@ -231,15 +228,10 @@ export function DiarySimplePage() {
               >
                 <div className="diary-checkin-emotion">
                   <span className="diary-checkin-emoji">
-                    {EMOTION_EMOJIS[checkin.emotion] || '💭'}
+                    {getEmotionEmoji(checkin.emotion)}
                   </span>
                   <span className="diary-checkin-label">
-                    {checkin.emotion === 'happy' ? 'Glad' :
-                     checkin.emotion === 'calm' ? 'Lugn' :
-                     checkin.emotion === 'tired' ? 'Trött' :
-                     checkin.emotion === 'sad' ? 'Ledsen' :
-                     checkin.emotion === 'curious' ? 'Nyfiken' :
-                     checkin.emotion === 'angry' ? 'Arg' : checkin.emotion}
+                    {getEmotionLabel(checkin.emotion)}
                   </span>
                 </div>
                 {checkin.note && (
@@ -247,22 +239,27 @@ export function DiarySimplePage() {
                 )}
                 {checkin.drawingRef && (
                   <div className="diary-checkin-drawing">
-                    <img src={checkin.drawingRef} alt="Ritning" />
+                    <span className="diary-checkin-drawing-label">Teckning</span>
+                    <img src={checkin.drawingRef} alt={`Ritning från ${format(new Date(checkin.dateISO), 'd MMMM', { locale: sv })}`} />
                   </div>
                 )}
               </motion.div>
             ))}
           </div>
         ) : (
-          <div className="diary-empty-state">
-            <p>Inga anteckningar för denna dag ännu.</p>
-            <p className="diary-empty-hint">
-              Gå till "Hur känner jag mig idag?" för att lägga till en känsla.
-            </p>
-          </div>
+          <EmptyState
+            title="Inga anteckningar för denna dag ännu"
+            description="Gå till 'Hur känner jag mig idag?' för att lägga till en känsla."
+            icon="📝"
+            className="empty-state-in-card"
+          />
         )}
+          </div>
+          </div>
+        </main>
+        <ChildFlikNav />
       </div>
-    </div>
+    </AgeGuard>
   );
 }
 

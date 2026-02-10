@@ -1,0 +1,1 @@
+export { ClassDiaryContent } from './ClassDiaryContent';

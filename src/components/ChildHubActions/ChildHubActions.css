@@ -1,0 +1,211 @@
+@import '../../styles/design-system.css';
+
+/* One primary, two secondary – clear hierarchy, no equal choices */
+.child-hub-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  max-width: min(420px, 92vw);
+  margin: 0 auto;
+}
+
+/* Primary action – largest, centered, green, gentle breathing (do something now) */
+.child-hub-primary {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: clamp(28px, 5vw, 40px) clamp(24px, 4vw, 32px);
+  border: none;
+  border-radius: var(--mg-radius-large, 24px);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
+  font-family: var(--mg-font-family);
+  background: linear-gradient(145deg, #5dd4a0 0%, #2db87a 100%);
+  color: #0d5c2f;
+  animation: child-hub-primary-breathe 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .child-hub-primary {
+    animation: none;
+  }
+}
+
+@keyframes child-hub-primary-breathe {
+  0%, 100% {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+    transform: scale(1.02);
+  }
+}
+
+.child-hub-primary:hover {
+  transform: scale(1.03);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+}
+
+.child-hub-primary:active {
+  transform: scale(1.01);
+}
+
+.child-hub-primary:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 4px;
+}
+
+.child-hub-primary .child-hub-btn-icon {
+  font-size: clamp(4rem, 14vw, 6rem);
+}
+
+.child-hub-primary-label {
+  font-size: clamp(1.15rem, 3.2vw, 1.45rem);
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.25;
+  color: #0d5c2f;
+}
+
+/* Secondary row – two smaller cards, do not compete */
+.child-hub-secondary-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  gap: 16px;
+  width: 100%;
+}
+
+.child-hub-secondary {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: clamp(16px, 3vw, 22px) clamp(12px, 2vw, 18px);
+  border: none;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  font-family: var(--mg-font-family);
+}
+
+.child-hub-secondary:hover {
+  transform: scale(1.04);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.child-hub-secondary:active {
+  transform: scale(1.02);
+}
+
+.child-hub-secondary:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 3px;
+}
+
+.child-hub-secondary .child-hub-btn-icon {
+  font-size: clamp(2.5rem, 8vw, 3.5rem);
+}
+
+.child-hub-btn-icon {
+  line-height: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15em;
+}
+
+.child-hub-btn-icon-part {
+  display: inline-block;
+  line-height: 1;
+}
+
+.child-hub-secondary-label {
+  font-size: clamp(0.85rem, 2.2vw, 1rem);
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.25;
+}
+
+/* Blue = look back / history (Mina dagar) */
+.child-hub-secondary-days {
+  background: linear-gradient(145deg, #7dd3fc 0%, #38bdf8 100%);
+  color: #0c4a6e;
+}
+
+.child-hub-secondary-days .child-hub-secondary-label {
+  color: #0c4a6e;
+}
+
+/* Purple = me / profile (Jag) */
+.child-hub-secondary-me {
+  background: linear-gradient(145deg, #c4b5fd 0%, #a78bfa 100%);
+  color: #4c1d95;
+}
+
+.child-hub-secondary-me .child-hub-secondary-label {
+  color: #4c1d95;
+}
+
+@media (max-width: 768px) {
+  .child-hub-actions {
+    gap: 20px;
+    max-width: 96vw;
+  }
+
+  .child-hub-primary {
+    padding: 24px 20px;
+  }
+
+  .child-hub-primary .child-hub-btn-icon {
+    font-size: clamp(3.5rem, 18vw, 5rem);
+  }
+
+  .child-hub-primary-label {
+    font-size: 1.1rem;
+  }
+
+  .child-hub-secondary-row {
+    gap: 12px;
+  }
+
+  .child-hub-secondary {
+    max-width: none;
+    padding: 16px 12px;
+  }
+
+  .child-hub-secondary .child-hub-btn-icon {
+    font-size: clamp(2.25rem, 12vw, 3rem);
+  }
+
+  .child-hub-secondary-label {
+    font-size: 0.85rem;
+  }
+}
+
+/* Mobil: stapla sekundära knappar på höjd */
+@media (max-width: 480px) {
+  .child-hub-secondary-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .child-hub-secondary {
+    max-width: 100%;
+    width: 100%;
+  }
+}

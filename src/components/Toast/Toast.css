@@ -1,0 +1,23 @@
+/* Toast – fixed bottom-center so it’s visible after user action (e.g. choice / save) */
+.mg-toast {
+  position: fixed;
+  bottom: max(90px, calc(env(safe-area-inset-bottom) + 70px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  pointer-events: none;
+
+  background: rgba(255, 255, 255, 0.95);
+  color: #1f2a1f;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
+  padding: 14px 18px;
+  font-size: clamp(18px, 2.2vw, 26px);
+  font-weight: 700;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  max-width: min(92vw, 520px);
+  text-align: center;
+}

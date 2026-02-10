@@ -24,7 +24,7 @@ auth.post('/auth/register', async (req, res) => {
     }
 
     console.log('[POST /auth/register] Body:', { ...req.body, password: '***' });
-    const { email, password, role, name, classCode } = req.body || {};
+    const { email, password, role, name, classCode, dateOfBirth } = req.body || {};
     if (!email) {
       return res.status(400).json({ error: 'email_required' });
     }
@@ -70,6 +70,7 @@ auth.post('/auth/register', async (req, res) => {
       classCode: classCode || '',
       email: email,
       passwordHash: hash,
+      dateOfBirth: dateOfBirth || null,
     };
     db.kids = db.kids || [];
     db.kids.push(u);
@@ -82,7 +83,7 @@ auth.post('/auth/register', async (req, res) => {
       const exists = await ParentUser.findOne({ email });
       if (exists) return res.status(409).json({ error: 'email_exists' });
       const u = await ParentUser.create({ email, passwordHash: hash, name, role: 'parent' });
-      const token = createJWT({ id: u._id.toString(), role: 'parent' });
+      const token = createJWT({ id: u._id.toString(), role: 'parent', email });
       setAuthCookie(res, token);
       return res.json({ ok: true, role: 'parent', name: u.name });
     }
@@ -101,7 +102,7 @@ auth.post('/auth/register', async (req, res) => {
     db.parents = db.parents || [];
     db.parents.push(u);
     writeFileDB(db);
-    const token = createJWT({ id: u.id, role: 'parent' });
+    const token = createJWT({ id: u.id, role: 'parent', email });
     setAuthCookie(res, token);
     return res.json({ ok: true, role: 'parent', name: u.name });
   } else {
@@ -224,7 +225,7 @@ auth.post('/auth/login', async (req, res) => {
     }
 
     const userId = isMongoConnected() ? u._id.toString() : u.id;
-    const token = createJWT({ id: userId, role });
+    const token = createJWT({ id: userId, role, email: u.email || email });
     setAuthCookie(res, token);
     console.log('[AUTH] Login success:', { email, role, userId });
     res.json({
@@ -337,14 +338,14 @@ auth.post('/auth/logout', (req, res) => {
   res.json({ ok: true });
 });
 
-// Sessionstatus
+// Sessionstatus (returnerar role + id så klienten kan återställa session)
 auth.get('/auth/me', (req, res) => {
   const t = req.cookies?.token;
   if (!t) return res.status(401).json({ ok: false });
   try {
     const data = verifyJWT(t);
     if (!data) return res.status(401).json({ ok: false });
-    return res.json({ ok: true, role: data.role });
+    return res.json({ ok: true, role: data.role, id: data.id });
   } catch {
     return res.status(401).json({ ok: false });
   }

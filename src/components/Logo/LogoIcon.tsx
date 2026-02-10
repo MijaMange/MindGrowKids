@@ -22,15 +22,15 @@ export function LogoIcon({ variant = 'dark', size = 'md', className = '' }: Logo
 
   const svgSize = sizeMap[size];
 
-  // Color mapping based on variant
+  // Color mapping: dark = on green (white outline, light green heart); light = on light bg
   const colors = {
     light: {
       stroke: '#0A2F35',
       fill: '#00B06D',
     },
     dark: {
-      stroke: '#FDFCF9',
-      fill: '#8CF0C0',
+      stroke: '#FFFFFF',
+      fill: '#9EE8C8',
     },
   };
 
@@ -42,7 +42,8 @@ export function LogoIcon({ variant = 'dark', size = 'md', className = '' }: Logo
       width={svgSize}
       height={svgSize}
       className={`logo-icon logo-icon-${size} ${className}`}
-      aria-label="MindGrow logo"
+      aria-label="MindGrow logotyp"
+      role="img"
     >
       {/* Outer rounded square outline */}
       <rect

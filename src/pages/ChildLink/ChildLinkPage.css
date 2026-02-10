@@ -1,0 +1,131 @@
+/* Länkkod-sida för barn – samma design som övriga app-sidor */
+
+.child-link-stage {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-top: clamp(16px, 2vw, 24px);
+}
+
+.child-link-card {
+  width: min(440px, 92vw);
+  min-height: min(360px, calc(100dvh - 140px));
+}
+
+.child-link-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.child-link-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 8px 0;
+}
+
+.child-link-intro {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2f2f2f;
+  line-height: 1.5;
+}
+
+.child-link-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.child-link-heading {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.child-link-code,
+.child-link-pin-display {
+  padding: 20px 24px;
+  border-radius: 16px;
+  background: rgba(28, 191, 130, 0.12);
+  border: 2px solid var(--mg-good, #1CBF82);
+  font-size: 1.75rem;
+  font-weight: 800;
+  font-family: var(--mg-font-family);
+  letter-spacing: 0.2em;
+  text-align: center;
+  color: var(--mg-primary-dark, #12824b);
+}
+
+.child-link-pin-btn {
+  align-self: flex-start;
+  padding: 14px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.child-link-pin-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.child-link-pin-row .child-link-pin-display {
+  flex: 1;
+  margin-top: 0;
+  min-width: 0;
+}
+
+.child-link-copy-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 2px solid var(--mg-good, #1CBF82);
+  border-radius: 12px;
+  background: rgba(28, 191, 130, 0.15);
+  color: var(--mg-primary-dark, #12824b);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.child-link-copy-btn:hover {
+  background: rgba(28, 191, 130, 0.25);
+}
+
+.child-link-copy-btn:active {
+  transform: scale(0.96);
+}
+
+.child-link-copy-icon {
+  line-height: 1;
+}
+
+.child-link-copy-feedback {
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.child-link-pin-display {
+  margin-top: 4px;
+  letter-spacing: 0.15em;
+}
+
+@media (max-width: 768px) {
+  .child-link-code,
+  .child-link-pin-display {
+    font-size: 1.5rem;
+    letter-spacing: 0.15em;
+  }
+}

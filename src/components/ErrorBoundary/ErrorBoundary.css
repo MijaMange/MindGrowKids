@@ -1,0 +1,264 @@
+@import '../../styles/design-system.css';
+
+.error-boundary-container {
+  font-family: var(--mg-font-family);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--mg-page-top-padding) 24px 48px;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+@media (max-width: 768px) {
+  .error-boundary-container {
+    padding: var(--mg-page-top-padding-mobile) 20px 32px;
+  }
+}
+
+/* Breathing background gradient - same as other pages */
+.error-boundary-bg-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--mg-bg-gradient-start) 0%, var(--mg-bg-gradient-end) 100%);
+  z-index: 0;
+  animation: breathing-bg 20s ease-in-out infinite;
+}
+
+@keyframes breathing-bg {
+  0%, 100% {
+    filter: brightness(1);
+    transform: scale(1);
+  }
+  50% {
+    filter: brightness(1.05);
+    transform: scale(1.01);
+  }
+}
+
+.error-boundary-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--mg-section-gap);
+  max-width: var(--mg-content-max-width);
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: var(--mg-radius-large);
+  padding: 48px 32px;
+  box-shadow: var(--mg-shadow-soft);
+}
+
+@media (max-width: 768px) {
+  .error-boundary-content {
+    padding: 32px 24px;
+  }
+}
+
+.error-boundary-title {
+  font-size: var(--mg-size-headline);
+  font-weight: 700;
+  color: var(--mg-primary-dark);
+  margin: 0 0 16px 0;
+  line-height: var(--mg-line-height-tight);
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 768px) {
+  .error-boundary-title {
+    font-size: var(--mg-size-headline-mobile);
+  }
+}
+
+.error-boundary-message {
+  font-size: var(--mg-size-supporting);
+  line-height: var(--mg-line-height-normal);
+  color: #555;
+  margin: 0;
+  max-width: var(--mg-text-max-width);
+}
+
+@media (max-width: 768px) {
+  .error-boundary-message {
+    font-size: var(--mg-size-supporting-mobile);
+  }
+}
+
+.error-boundary-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: var(--mg-button-max-width);
+  margin-top: 8px;
+}
+
+.error-boundary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--mg-button-height);
+  padding: 0 32px;
+  border: none;
+  border-radius: var(--mg-radius-pill);
+  font-family: var(--mg-font-family);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--mg-shadow-button);
+  backdrop-filter: blur(8px);
+}
+
+.error-boundary-button-primary {
+  background: var(--mg-primary);
+  color: var(--mg-white);
+}
+
+.error-boundary-button-primary:hover {
+  background: var(--mg-primary-dark);
+  transform: scale(1.02);
+  box-shadow: var(--mg-shadow-button-hover);
+}
+
+.error-boundary-button-primary:active {
+  transform: scale(1.01);
+}
+
+.error-boundary-button-secondary {
+  background: var(--mg-white);
+  color: var(--mg-primary-dark);
+  border: 2px solid var(--mg-primary-dark);
+}
+
+.error-boundary-button-secondary:hover {
+  background: var(--mg-offwhite);
+  transform: scale(1.02);
+  box-shadow: var(--mg-shadow-button-hover);
+}
+
+.error-boundary-button-secondary:active {
+  transform: scale(1.01);
+}
+
+.error-boundary-button:focus-visible {
+  outline: 3px solid rgba(18, 130, 75, 0.5);
+  outline-offset: 4px;
+}
+
+@media (max-width: 768px) {
+  .error-boundary-button {
+    height: var(--mg-button-height-small);
+    font-size: 1rem;
+    padding: 0 24px;
+  }
+}
+
+/* Development error details */
+.error-boundary-details {
+  width: 100%;
+  max-width: var(--mg-content-max-width);
+  margin-top: 24px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: var(--mg-radius);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.error-boundary-details-summary {
+  padding: 16px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  transition: background 0.2s ease;
+}
+
+.error-boundary-details-summary::-webkit-details-marker {
+  display: none;
+}
+
+.error-boundary-details-summary:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.error-boundary-details-summary:focus-visible {
+  outline: 2px solid var(--mg-primary);
+  outline-offset: -2px;
+}
+
+.error-boundary-details-content {
+  padding: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.error-boundary-details-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.error-boundary-details-section strong {
+  font-size: 0.85rem;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.error-boundary-pre {
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #333;
+  background: #f5f5f5;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.error-boundary-button-small {
+  height: 36px;
+  font-size: 0.9rem;
+  padding: 0 16px;
+  background: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
+  box-shadow: none;
+  max-width: 200px;
+  align-self: flex-start;
+}
+
+.error-boundary-button-small:hover {
+  background: #e0e0e0;
+  transform: scale(1.01);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .error-boundary-bg-gradient {
+    animation: none !important;
+    transform: none !important;
+  }
+  
+  .error-boundary-button {
+    transition: none !important;
+  }
+}

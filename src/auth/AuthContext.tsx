@@ -1,25 +1,45 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { apiFetch } from '../utils/config';
 
 type Role = 'child' | 'parent' | 'pro' | null;
 export type User = { role: Role; name?: string; classCode?: string; id?: string } | null;
 
+export type LoginResult = { success: true } | { success: false; error: string };
+
 interface AuthContextValue {
   user: User;
-  login: (credentials: { username: string; password: string }) => Promise<boolean>;
+  login: (credentials: { username: string; password: string }) => Promise<LoginResult>;
   logout: () => Promise<void>;
 }
 
 const Ctx = createContext<AuthContextValue>({
   user: null,
-  login: async () => false,
+  login: async () => ({ success: false, error: '' }),
   logout: async () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>(null);
 
-  async function login({ username, password }: { username: string; password: string }): Promise<boolean> {
+  // Återställ session vid start (cookie finns kvar)
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const r = await apiFetch('/api/auth/me', { credentials: 'include' });
+        if (cancelled || !r.ok) return;
+        const d = await r.json();
+        if (d.ok && d.role) {
+          setUser({ role: d.role, id: d.id });
+        }
+      } catch {
+        // Tyst – användaren är bara inte inloggad
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  async function login({ username, password }: { username: string; password: string }): Promise<LoginResult> {
     try {
       const r = await apiFetch('/api/auth/login', {
         method: 'POST',
@@ -36,12 +56,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           classCode: d.classCode,
           id: d.id,
         });
-        return true;
+        return { success: true };
       }
-      return false;
+      const body = await r.json().catch(() => ({}));
+      const message = body?.message || body?.error || 'Fel användarnamn eller lösenord';
+      return { success: false, error: message };
     } catch (err) {
       console.error('[AuthContext] Login error:', err);
-      return false;
+      const message = err instanceof Error ? err.message : 'Kunde inte ansluta. Kontrollera att servern körs.';
+      return { success: false, error: message };
     }
   }
 

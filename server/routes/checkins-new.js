@@ -6,7 +6,7 @@ export const checkins = Router();
 
 // POST /api/checkins (ROLE: child)
 checkins.post('/checkins', authRequired, roleRequired('child'), setScope, async (req, res) => {
-  const { emotion, mode, note, drawingRef } = req.body || {};
+  const { emotion, mode, note, drawingRef, clientId } = req.body || {};
   const { orgId, classId, studentId } = req.scope || {};
 
   if (!emotion || !mode) {
@@ -27,6 +27,7 @@ checkins.post('/checkins', authRequired, roleRequired('child'), setScope, async 
       note,
       drawingRef,
       dateISO: new Date().toISOString(),
+      clientId, // Include clientId for duplicate detection
     });
 
     // Award mood (försök via HTTP om möjligt, annars ignorera)

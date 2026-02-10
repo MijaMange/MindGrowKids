@@ -3,6 +3,13 @@ import { authRequired, roleRequired, setScope } from '../mw/auth.js';
 import { listCheckins, summarize } from '../data/adapter.js';
 import OpenAI from 'openai';
 import { readFileDB } from '../lib/db.js';
+import {
+  sanitizeInput,
+  sanitizeSystemPrompt,
+  validateOutput,
+  rateLimiter,
+  safeLog,
+} from '../utils/ai-safety.js';
 
 export const analytics = Router();
 
@@ -75,9 +82,20 @@ analytics.get('/analytics/weekly', authRequired, roleRequired('parent', 'pro'), 
 analytics.get('/analytics/summary', authRequired, roleRequired('parent', 'pro'), setScope, async (req, res) => {
   const { from, to } = req.query;
   const { orgId, classId } = req.scope || {};
+  const userId = req.user?.id || req.user?._id?.toString() || 'anonymous';
 
   if (!orgId || !classId) {
     return res.status(400).json({ error: 'scope_missing' });
+  }
+
+  // Rate limiting
+  if (!rateLimiter.isAllowed(userId)) {
+    const remaining = rateLimiter.getRemaining(userId);
+    return res.status(429).json({
+      error: 'rate_limit_exceeded',
+      message: 'För många förfrågningar. Försök igen om en minut.',
+      retryAfter: 60,
+    });
   }
 
   try {
@@ -89,8 +107,11 @@ analytics.get('/analytics/summary', authRequired, roleRequired('parent', 'pro'),
     // Försök med AI om API-nyckel finns
     if (process.env.OPENAI_API_KEY && aggregation.total > 0) {
       try {
-        const system = `Du är en varm, beskrivande observatör. Skriv 2-3 meningar på svenska som beskriver känslomönstret baserat på aggregerad data. Använd INGA råd, bedömningar eller tolkningar. Bara beskriv vad som syns.`;
-        const userText = `Totalt ${aggregation.total} registreringar. Fördelning: ${JSON.stringify(aggregation.buckets)}. Tidslinje: ${aggregation.timeSeries.length} dagar.`;
+        // Sanitize inputs
+        const system = sanitizeSystemPrompt(
+          `Du är en varm, beskrivande observatör. Skriv 2-3 meningar på svenska som beskriver känslomönstret baserat på aggregerad data. Använd INGA råd, bedömningar eller tolkningar. Bara beskriv vad som syns.`
+        );
+        const userText = sanitizeInput(aggregation);
 
         const resp = await openai.chat.completions.create({
           model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
@@ -102,7 +123,18 @@ analytics.get('/analytics/summary', authRequired, roleRequired('parent', 'pro'),
           max_tokens: 120,
         });
 
-        summaryText = resp.choices?.[0]?.message?.content?.trim() || gentleSummary(aggregation);
+        const aiResponse = resp.choices?.[0]?.message?.content?.trim() || '';
+
+        // Validate output
+        if (aiResponse && validateOutput(aiResponse)) {
+          summaryText = aiResponse;
+          safeLog(userText, aiResponse, 'analytics/summary');
+        } else {
+          // Fallback to gentle summary if validation fails
+          console.warn('[AI-SAFETY] Output validation failed, using fallback');
+          safeLog(userText, aiResponse, 'analytics/summary (REJECTED)');
+          summaryText = gentleSummary(aggregation);
+        }
       } catch (aiErr) {
         console.warn('[AI summary failed]', aiErr?.message);
         summaryText = gentleSummary(aggregation);

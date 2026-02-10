@@ -1,5 +1,7 @@
+import { ReactNode } from 'react';
 import { AppHeader } from '../layout/AppHeader';
 import { ButtonNavList } from '../ButtonNavList/ButtonNavList';
+import { ChildHubActions } from '../ChildHubActions/ChildHubActions';
 import { LogoutButton } from '../LogoutButton/LogoutButton';
 import './UnifiedHubLayout.css';
 
@@ -15,7 +17,11 @@ interface UnifiedHubLayoutProps {
   subtitle?: string;
   description?: string;
   actions: Action[];
+  /** Barn-dashboard: tre stora horisontella knappar, ikon förklarar, andra färger än orange */
+  childActions?: boolean;
   showLogout?: boolean;
+  /** When set, replaces title + actions with this content (e.g. inline age selection on hub) */
+  overrideContent?: ReactNode;
 }
 
 /**
@@ -34,37 +40,43 @@ export function UnifiedHubLayout({
   subtitle,
   description,
   actions,
+  childActions = false,
   showLogout = true,
+  overrideContent,
 }: UnifiedHubLayoutProps) {
   return (
     <div className="unified-hub-container">
-      {/* Global header with logo and hamburger menu */}
       <AppHeader />
-
-      {/* Breathing background gradient */}
       <div className="unified-hub-bg-gradient" aria-hidden="true" />
 
-      <div className="unified-hub-content">
-
-        {/* Title */}
-        <h1 className="unified-hub-title">{title}</h1>
-
-        {/* Subtitle */}
-        {subtitle && <p className="unified-hub-subtitle">{subtitle}</p>}
-
-        {/* Description */}
-        {description && <p className="unified-hub-description">{description}</p>}
-
-        {/* Actions */}
-        <div className="unified-hub-actions">
-          <ButtonNavList actions={actions} />
-        </div>
-
-        {/* Logout button */}
-        {showLogout && (
-          <div className="unified-hub-logout">
-            <LogoutButton />
-          </div>
+      <div className={`unified-hub-content${childActions ? ' unified-hub-content--child' : ''}`}>
+        {overrideContent != null ? (
+          <>
+            <div className="unified-hub-override">{overrideContent}</div>
+            {showLogout && (
+              <div className="unified-hub-logout">
+                <LogoutButton />
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            <h1 className="unified-hub-title">{title}</h1>
+            {subtitle && <p className="unified-hub-subtitle">{subtitle}</p>}
+            {description && <p className="unified-hub-description">{description}</p>}
+            <div className="unified-hub-actions">
+              {childActions ? (
+                <ChildHubActions actions={actions} />
+              ) : (
+                <ButtonNavList actions={actions} />
+              )}
+            </div>
+            {showLogout && (
+              <div className="unified-hub-logout">
+                <LogoutButton />
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

@@ -1,0 +1,268 @@
+/* Settings page – minimal, calm, adult-only. No playful styling. */
+
+.settings-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.settings-page-bg {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, #f0f4f2 0%, #e8eee9 100%);
+  z-index: 0;
+}
+
+.settings-page-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: calc(var(--mg-page-top-padding, 72px) + 24px) 24px 48px;
+}
+
+.settings-page-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1d2b24;
+  margin: 0 0 24px 0;
+}
+
+/* Adult view inside AdultPageShell (glass card on emerald) */
+.settings-adult-card .settings-page-title {
+  color: var(--mg-white, #1d2b24);
+}
+.settings-adult-card .settings-section-title {
+  color: var(--mg-grey-text, #6b7280);
+}
+.settings-adult-card .settings-dt,
+.settings-adult-card .settings-muted {
+  color: var(--mg-grey-text, #6b7280);
+}
+.settings-adult-card .settings-dd {
+  color: var(--mg-white, #1d2b24);
+}
+.settings-adult-card .settings-toggle {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--mg-glass-border, rgba(255, 255, 255, 0.3));
+  color: var(--mg-white, #1d2b24);
+}
+.settings-adult-card .settings-toggle:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+.settings-adult-card .settings-footer {
+  border-top-color: var(--mg-glass-border, rgba(255, 255, 255, 0.2));
+}
+.settings-adult-card .settings-logout-btn {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: var(--mg-white, #1d2b24);
+}
+.settings-adult-card .settings-logout-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--mg-white, #1d2b24);
+}
+
+.settings-section {
+  margin-bottom: 24px;
+}
+
+.settings-section-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+  margin: 0 0 8px 0;
+}
+
+.settings-dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 24px;
+  align-items: baseline;
+}
+
+.settings-dt {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.settings-dd {
+  font-size: 0.875rem;
+  color: #1d2b24;
+  margin: 0;
+}
+
+.settings-muted {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.settings-toggle {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1d2b24;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.settings-toggle:hover {
+  border-color: #9ca3af;
+  background: #f9fafb;
+}
+
+.settings-toggle[aria-pressed="true"] .settings-toggle-label {
+  color: #6b7280;
+}
+
+.settings-toggle-label {
+  min-width: 2ch;
+}
+
+.settings-footer {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.settings-logout-btn {
+  width: 100%;
+  padding: 12px 24px;
+  border: 1px solid #6b7280;
+  border-radius: 8px;
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.settings-logout-btn:hover {
+  background: #f3f4f6;
+  color: #1d2b24;
+}
+
+/* Child settings – inside journey layout */
+.settings-child-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.settings-toggle-big {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  border: 2px solid #e5e7eb;
+  background: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.settings-toggle-big:hover {
+  border-color: var(--mg-good, #1CBF82);
+  background: rgba(28, 191, 130, 0.06);
+}
+
+.settings-toggle-emoji {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.settings-child-content .settings-section-title {
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+
+.settings-child-content .settings-footer {
+  margin-top: 8px;
+}
+
+/* Age selector in child settings */
+.settings-age-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.settings-age-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 12px;
+  border-radius: 16px;
+  border: 2px solid #e5e7eb;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1d2b24;
+}
+
+.settings-age-card:hover:not(:disabled) {
+  border-color: var(--mg-good, #1CBF82);
+  background: rgba(28, 191, 130, 0.06);
+}
+
+.settings-age-card.selected {
+  border-color: var(--mg-good, #1CBF82);
+  background: rgba(28, 191, 130, 0.12);
+}
+
+.settings-age-card:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.settings-age-emoji {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.settings-age-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.settings-age-ring {
+  position: absolute;
+  inset: -2px;
+  border-radius: 16px;
+  border: 3px solid var(--mg-good, #1CBF82);
+  pointer-events: none;
+}
+
+.settings-age-saving {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .settings-page-content {
+    padding: calc(var(--mg-page-top-padding-mobile, 56px) + 20px) 20px 32px;
+  }
+}
