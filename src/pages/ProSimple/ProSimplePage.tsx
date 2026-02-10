@@ -551,7 +551,10 @@ export function ProSimplePage() {
                     <button
                       type="button"
                       className="pro-class-icon-btn"
-                      onClick={() => loadStudents(code)}
+                      onClick={async () => {
+                        await loadMyClasses();
+                        await loadStudents(code);
+                      }}
                       aria-label="Uppdatera elevlista"
                     >
                       <RefreshIcon />

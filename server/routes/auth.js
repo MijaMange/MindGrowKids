@@ -24,7 +24,8 @@ auth.post('/auth/register', async (req, res) => {
     }
 
     console.log('[POST /auth/register] Body:', { ...req.body, password: '***' });
-    const { email, password, role, name, classCode, dateOfBirth } = req.body || {};
+    const { email, password, role, name, classCode: rawClassCode, dateOfBirth } = req.body || {};
+    const classCode = (rawClassCode && String(rawClassCode).trim().toUpperCase()) || '';
     if (!email) {
       return res.status(400).json({ error: 'email_required' });
     }

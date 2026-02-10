@@ -171,7 +171,7 @@ export function RegisterModal({ isOpen, onClose, onSuccess, defaultRole = 'child
               <input
                 type="text"
                 className="register-modal-input"
-                placeholder="Klasskod (valfritt)"
+                placeholder="Klasskod (t.ex. C-JBPH) – kopplar eleven till klassen"
                 value={classCode}
                 onChange={(e) => setClassCode(e.target.value)}
                 autoComplete="off"

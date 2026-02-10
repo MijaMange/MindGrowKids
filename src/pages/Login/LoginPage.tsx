@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { createPortal } from 'react-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
+import { RegisterModal } from '../../components/RegisterModal/RegisterModal';
 import './login.css';
 
 /**
@@ -23,6 +25,7 @@ export function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showRegister, setShowRegister] = useState(false);
 
   // Conditional redirect is fine AFTER all hooks have been called
   // If already authenticated, redirect to hub
@@ -134,11 +137,26 @@ export function LoginPage() {
         </form>
 
         <div className="login-footer">
-          <Link to="/register" className="login-link">
+          <button
+            type="button"
+            className="login-link"
+            onClick={() => setShowRegister(true)}
+          >
             Skapa konto
-          </Link>
+          </button>
         </div>
       </div>
+
+      {/* Skapa konto som popup ovanpå sidan */}
+      {typeof document !== 'undefined' && document.body && showRegister && createPortal(
+        <RegisterModal
+          isOpen={showRegister}
+          onClose={() => setShowRegister(false)}
+          onSuccess={() => {}}
+          onOpenLogin={() => setShowRegister(false)}
+        />,
+        document.body
+      )}
     </div>
   );
 }

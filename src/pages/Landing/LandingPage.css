@@ -149,6 +149,22 @@
   }
 }
 
+/* Light sweep – mjuk ljuspas som rör sig nedåt, fångar INGA klick */
+.landing-light-sweep {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 25%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.08) 75%,
+    transparent 100%
+  );
+}
+
 /* Content - centered column, no card */
 .landing-content {
   position: relative;
@@ -208,7 +224,7 @@
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
-/* CTA Button - Pill shape */
+/* CTA Button - Pill shape (samma höjd som Skapa konto) */
 .landing-btn-primary {
   background: var(--mg-white);
   color: var(--mg-primary-dark);
@@ -222,10 +238,9 @@
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: var(--mg-shadow-button);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: var(--mg-section-gap);
   white-space: nowrap;
 }
 
@@ -241,6 +256,80 @@
 .landing-btn-primary:focus-visible {
   outline: 3px solid rgba(255, 255, 255, 0.5);
   outline-offset: 4px;
+}
+
+/* CTA Section – rad med Logga in + Skapa konto, sedan textlänk */
+.landing-cta-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: var(--mg-section-gap);
+  width: 100%;
+}
+
+.landing-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Sekundär knapp – Skapa konto, samma höjd som Logga in */
+.landing-cta-register {
+  background: transparent;
+  color: var(--mg-white);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: var(--mg-radius-pill);
+  height: var(--mg-button-height);
+  min-height: var(--mg-button-height);
+  padding: 0 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--mg-font-family);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.landing-cta-register:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--mg-white);
+}
+
+.landing-cta-register:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 4px;
+}
+
+/* Textlänk – Abonnemang för skolor och verksamheter */
+.landing-cta-school-text {
+  background: none;
+  border: none;
+  color: var(--mg-grey-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: var(--mg-font-family);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  padding: 8px 12px;
+  transition: color 0.2s ease;
+}
+
+.landing-cta-school-text:hover {
+  color: var(--mg-white);
+}
+
+.landing-cta-school-text:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 
 /* Responsive adjustments */
@@ -276,6 +365,19 @@
     padding: 0 40px;
     width: 100%;
     max-width: var(--mg-button-max-width);
+  }
+
+  .landing-cta-row {
+    flex-direction: column;
+    width: 100%;
+    max-width: var(--mg-button-max-width);
+  }
+
+  .landing-cta-register {
+    width: 100%;
+    font-size: 0.95rem;
+    height: var(--mg-button-height-small);
+    padding: 0 28px;
   }
   
   .floating-emoji {
@@ -313,4 +415,129 @@
   .floating-emoji.no-motion {
     animation: none !important;
   }
+}
+
+/* Skol-/verksamhetsmodal – används med createPortal i body, behöver hög z-index */
+.landing-school-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.landing-school-modal {
+  background: var(--mg-panel-bg, #fafbf9);
+  border-radius: var(--mg-radius-large, 24px);
+  padding: 24px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--mg-shadow-panel);
+  position: relative;
+}
+
+.landing-school-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.landing-school-modal-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--mg-ink, #1d2b24);
+}
+
+.landing-school-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  color: var(--mg-ink);
+}
+
+.landing-school-modal-intro {
+  margin: 0 0 16px 0;
+  color: var(--mg-ink);
+}
+
+.landing-school-modal-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.landing-school-card {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--mg-radius-md, 12px);
+  padding: 20px;
+  background: #fff;
+  position: relative;
+}
+
+.landing-school-card-title {
+  margin: 0 0 8px 0;
+  font-size: 1.1rem;
+}
+
+.landing-school-card-price {
+  margin: 0 0 4px 0;
+  font-weight: 600;
+  color: var(--mg-primary-dark);
+}
+
+.landing-school-card-note {
+  margin: 0 0 12px 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.landing-school-card-list {
+  margin: 0 0 16px 0;
+  padding-left: 1.2em;
+}
+
+.landing-school-card-cta {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: var(--mg-radius-md);
+  border: none;
+  background: var(--mg-good);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.landing-school-card-cta-secondary {
+  background: transparent;
+  border: 2px solid var(--mg-soft);
+  color: var(--mg-ink);
+}
+
+.landing-school-card-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--mg-primary-dark);
+}
+
+.landing-school-card-disabled .landing-school-card-cta {
+  opacity: 0.8;
+}
+
+.landing-school-card-school-message {
+  margin: 0 0 12px 0;
+  font-size: 0.9rem;
+  color: #666;
 }

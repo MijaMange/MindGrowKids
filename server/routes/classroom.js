@@ -117,8 +117,9 @@ classroom.get(
         return 'Varierande humör';
       }
 
+      const codeNorm = (classCode || '').trim().toUpperCase();
       const rows = (db.kids || [])
-        .filter((c) => c.classCode === classCode)
+        .filter((c) => c && (c.classCode || '').trim().toUpperCase() === codeNorm)
         .map((c) => {
           const emoji = c.emoji || avatars.find((a) => a.childRef === c.id)?.data?.emoji || '👤';
           const summary = studentSummary(recentCheckins.filter((ch) => ch.studentId === c.id));

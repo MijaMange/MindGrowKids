@@ -424,7 +424,8 @@ app.get('/api/pro/my-classes', authRequired, roleRequired('pro'), async (req, re
       try {
         const row = (db.classes || []).find((c) => c && c.code === code);
         const avatars = db.avatars || [];
-        const classKids = (db.kids || []).filter((k) => k && k.classCode === code);
+        const codeNorm = (code || '').trim().toUpperCase();
+        const classKids = (db.kids || []).filter((k) => k && (k.classCode || '').trim().toUpperCase() === codeNorm);
         const classCheckins = checkins.filter((c) => c && classKids.some((k) => k.id === c.studentId));
         const { mood: classMood, label: classMoodLabel, emoji: classMoodEmoji } = classMoodFromCheckins(classCheckins);
         const students = classKids.map((k) => {
@@ -547,7 +548,13 @@ app.use((req, res) => {
 
 (async () => {
   try {
-    await connectDB(process.env.MONGO_URL, process.env.MONGO_DB_NAME);
+    // Använd alltid fil-DB (mock-db.json) om inte USE_MONGO=1 är satt – Otto, lärare, föräldrar finns i filen
+    const useMongo = process.env.USE_MONGO === '1' || process.env.USE_MONGO === 'true';
+    const mongoUrl = useMongo ? process.env.MONGO_URL : null;
+    if (!useMongo) {
+      console.log('[DB] Använder fil-DB (mock-db.json) – parent: test/anna, lärare: larare@test.se/lara, otto: otto@test.se – lösenord 1234');
+    }
+    await connectDB(mongoUrl, process.env.MONGO_DB_NAME);
 
     const port = process.env.PORT || 4000;
     app.listen(port, () => {

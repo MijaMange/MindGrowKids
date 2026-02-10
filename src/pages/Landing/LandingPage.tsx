@@ -1,5 +1,6 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState, useMemo, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 import { MindGrowLogo } from '../../components/Logo/MindGrowLogo';
 import { LoginModal } from '../../components/LoginModal/LoginModal';
@@ -142,26 +143,26 @@ export function LandingPage() {
         </div>
       </div>
 
-      {/* Login Modal */}
-      <LoginModal
-        isOpen={showLogin}
-        onClose={() => setShowLogin(false)}
-        onSuccess={handleLoginSuccess}
-      />
-
-      {/* Register Modal (popup som Logga in) */}
-      <RegisterModal
-        isOpen={showRegister}
-        onClose={() => setShowRegister(false)}
-        onSuccess={handleLoginSuccess}
-        onOpenLogin={() => setShowLogin(true)}
-        defaultRole="child"
-      />
-
-      {/* Skolor & verksamheter – popup som Logga in */}
-      {showSchoolModal && (
-        <div
-          className="landing-school-modal-backdrop"
+      {/* Modals rendras i body så att de inte klipps av overflow eller z-index */}
+      {typeof document !== 'undefined' &&
+        document.body &&
+        createPortal(
+          <>
+            <LoginModal
+            isOpen={showLogin}
+            onClose={() => setShowLogin(false)}
+            onSuccess={handleLoginSuccess}
+          />
+          <RegisterModal
+            isOpen={showRegister}
+            onClose={() => setShowRegister(false)}
+            onSuccess={handleLoginSuccess}
+            onOpenLogin={() => setShowLogin(true)}
+            defaultRole="child"
+          />
+          {showSchoolModal && (
+            <div
+              className="landing-school-modal-backdrop"
           onClick={() => { setShowSchoolModal(false); if (searchParams.get('show') || searchParams.get('context')) setSearchParams({}, { replace: true }); }}
           onKeyDown={(e) => { if (e.key === 'Escape') { setShowSchoolModal(false); if (searchParams.get('show') || searchParams.get('context')) setSearchParams({}, { replace: true }); } }}
           role="dialog"
@@ -235,7 +236,10 @@ export function LandingPage() {
             </div>
           </div>
         </div>
-      )}
+          )}
+          </>,
+          document.body
+        )}
     </div>
   );
 }

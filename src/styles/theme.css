@@ -1,4 +1,7 @@
 :root {
+  /* Gradient för landningssida – samma färger från start (theme laddas tidigt) */
+  --mg-bg-gradient-start: #1CBF82;
+  --mg-bg-gradient-end: #029E6E;
   /* Brand gradient colors - calm, organic */
   --mg-brand-start: #11998e;
   --mg-brand-end: #38ef7d;

@@ -47,7 +47,7 @@ export function LoginModal({ isOpen, onClose, onSuccess }: LoginModalProps) {
 
     setLoading(true);
     try {
-      const result = await login({ username, password });
+      const result = await login({ username: username.trim(), password });
       if (result.success) {
         onSuccess();
         onClose();
@@ -59,7 +59,11 @@ export function LoginModal({ isOpen, onClose, onSuccess }: LoginModalProps) {
         setError(result.error);
       }
     } catch (err) {
-      setError('Ett fel uppstod: ' + (err instanceof Error ? err.message : 'Okänt fel'));
+      const msg = err instanceof Error ? err.message : 'Okänt fel';
+      const isNetwork = /ansluta|nätverk|network|failed to fetch/i.test(msg);
+      setError(isNetwork
+        ? 'Kunde inte ansluta. Kontrollera att servern körs (t.ex. backend på port 4000).'
+        : 'Ett fel uppstod: ' + msg);
     } finally {
       setLoading(false);
     }
@@ -83,13 +87,13 @@ export function LoginModal({ isOpen, onClose, onSuccess }: LoginModalProps) {
         <form onSubmit={handleSubmit} className="login-modal-form" noValidate>
           <div>
             <label htmlFor={usernameId} className="sr-only">
-              Användarnamn
+              E-post
             </label>
             <input
               id={usernameId}
               type="text"
               className="login-modal-input"
-              placeholder="Användarnamn"
+              placeholder="E-post"
               value={username}
               onChange={(e) => {
                 setUsername(e.target.value);
