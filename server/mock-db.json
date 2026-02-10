@@ -21667,6 +21667,30 @@
       "drawingRef": "",
       "dateISO": "2026-02-10T21:05:54.199Z",
       "createdAtISO": "2026-02-10T21:05:54.243Z"
+    },
+    {
+      "id": "f21c9a86-6ff5-4b15-94ee-c20331eb8188",
+      "orgId": "",
+      "classId": "",
+      "studentId": "otto-test-1",
+      "emotion": "happy",
+      "mode": "text",
+      "note": "Jag känner mig arg i skolan saknar mamma",
+      "drawingRef": "",
+      "dateISO": "2026-02-10T21:59:07.412Z",
+      "createdAtISO": "2026-02-10T21:59:07.517Z"
+    },
+    {
+      "id": "129608d2-942f-47e3-a674-00c9192d4314",
+      "orgId": "",
+      "classId": "",
+      "studentId": "otto-test-1",
+      "emotion": "tired",
+      "mode": "none",
+      "note": "",
+      "drawingRef": "",
+      "dateISO": "2026-02-10T22:03:13.227Z",
+      "createdAtISO": "2026-02-10T22:03:13.464Z"
     }
   ],
   "moods": [],

@@ -32,21 +32,21 @@ export function ChildDashboard() {
       id: 'feel',
       title: 'Hur känner jag mig idag?',
       emoji: '💭',
-      path: '/journey',
+      path: '/app/journey-simple',
       color: '#2e7d32', // Tydligare grön
     },
     {
       id: 'days',
       title: 'Mina dagar',
       emoji: '📅',
-      path: '/diary',
+      path: '/app/diary-simple',
       color: '#1976d2', // Tydligare blå
     },
     {
       id: 'avatar',
       title: 'Jag',
       emoji: '🧑',
-      path: '/avatar',
+      path: '/app/avatar-simple',
       color: '#f57c00', // Tydligare orange
     },
   ];

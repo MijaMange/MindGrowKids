@@ -20,25 +20,25 @@ export function BottomNav() {
 
   const navItems = [
     {
-      path: '/dashboard',
+      path: '/hub',
       icon: '🏠',
       label: 'Hem',
       ariaLabel: 'Gå till hem',
     },
     {
-      path: '/journey',
+      path: '/app/journey-simple',
       icon: '💭',
       label: 'Känsloresa',
       ariaLabel: 'Gå till känsloresa',
     },
     {
-      path: '/diary',
+      path: '/app/diary-simple',
       icon: '📅',
       label: 'Mina dagar',
       ariaLabel: 'Gå till mina dagar',
     },
     {
-      path: '/avatar',
+      path: '/app/avatar-simple',
       icon: '🧑',
       label: 'Jag',
       ariaLabel: 'Gå till jag',

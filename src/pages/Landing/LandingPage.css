@@ -3,14 +3,18 @@
 
 .landing-container {
   font-family: 'Quicksand', sans-serif;
-  height: 100vh;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   position: relative;
   text-align: center;
   isolation: isolate;
+  padding-bottom: 40px;
 }
 
 /* Breathing background gradient - the "world" */
@@ -337,11 +341,12 @@
   .landing-container {
     align-items: flex-start;
     padding-top: var(--mg-page-top-padding-mobile);
+    justify-content: flex-start;
   }
 
   .landing-content {
-    gap: var(--mg-section-gap);
-    padding: 0 20px 40px;
+    gap: 16px;
+    padding: 28px 20px 48px;
     width: 90%;
     max-width: 100%;
   }
@@ -431,90 +436,142 @@
 }
 
 .landing-school-modal {
-  background: var(--mg-panel-bg, #fafbf9);
+  background: linear-gradient(165deg, #fafbf9 0%, #f0f5f2 100%);
   border-radius: var(--mg-radius-large, 24px);
-  padding: 24px;
-  max-width: 480px;
+  padding: 28px;
+  max-width: 720px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: var(--mg-shadow-panel);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(28, 191, 130, 0.12);
   position: relative;
+  border: 1px solid rgba(28, 191, 130, 0.2);
 }
 
 .landing-school-modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .landing-school-modal-header h2 {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.4rem;
+  font-weight: 700;
   color: var(--mg-ink, #1d2b24);
 }
 
 .landing-school-modal-close {
-  background: none;
+  background: rgba(0, 0, 0, 0.06);
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  padding: 4px;
+  padding: 8px 12px;
   line-height: 1;
   color: var(--mg-ink);
+  border-radius: var(--mg-radius-md);
+  transition: background 0.2s, color 0.2s;
+}
+
+.landing-school-modal-close:hover {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .landing-school-modal-intro {
-  margin: 0 0 16px 0;
+  margin: 0 0 20px 0;
   color: var(--mg-ink);
+  font-size: 1rem;
 }
 
+/* Horisontell layout – kort bredvid varandra */
 .landing-school-modal-cards {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .landing-school-card {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: var(--mg-radius-md, 12px);
-  padding: 20px;
+  border: 1px solid rgba(28, 191, 130, 0.18);
+  border-radius: 20px;
+  padding: 24px;
   background: #fff;
   position: relative;
+  flex: 1 1 260px;
+  min-width: 240px;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.landing-school-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: rgba(28, 191, 130, 0.35);
+}
+
+.landing-school-card-featured {
+  border-color: rgba(28, 191, 130, 0.4);
+  box-shadow: 0 6px 20px rgba(28, 191, 130, 0.12);
+}
+
+.landing-school-card-featured:hover {
+  border-color: rgba(28, 191, 130, 0.5);
+  box-shadow: 0 10px 28px rgba(28, 191, 130, 0.15);
 }
 
 .landing-school-card-title {
-  margin: 0 0 8px 0;
-  font-size: 1.1rem;
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--mg-ink);
 }
 
 .landing-school-card-price {
-  margin: 0 0 4px 0;
-  font-weight: 600;
+  margin: 0 0 6px 0;
+  font-weight: 700;
+  font-size: 1.1rem;
   color: var(--mg-primary-dark);
 }
 
 .landing-school-card-note {
-  margin: 0 0 12px 0;
+  margin: 0 0 14px 0;
   font-size: 0.9rem;
-  color: #666;
+  color: #555;
+  line-height: 1.4;
 }
 
 .landing-school-card-list {
-  margin: 0 0 16px 0;
+  margin: 0 0 20px 0;
   padding-left: 1.2em;
+  flex: 1;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #444;
 }
 
 .landing-school-card-cta {
   width: 100%;
-  padding: 12px 20px;
+  padding: 14px 20px;
   border-radius: var(--mg-radius-md);
   border: none;
   background: var(--mg-good);
   color: #fff;
   font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  margin-top: auto;
+}
+
+.landing-school-card-cta:hover {
+  background: var(--mg-primary-dark);
+  transform: scale(1.02);
 }
 
 .landing-school-card-cta-secondary {
@@ -523,13 +580,22 @@
   color: var(--mg-ink);
 }
 
+.landing-school-card-cta-secondary:hover {
+  background: rgba(28, 191, 130, 0.08);
+  border-color: var(--mg-good);
+  color: var(--mg-primary-dark);
+}
+
 .landing-school-card-badge {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 14px;
+  right: 14px;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--mg-primary-dark);
+  background: rgba(28, 191, 130, 0.15);
+  padding: 4px 10px;
+  border-radius: 999px;
 }
 
 .landing-school-card-disabled .landing-school-card-cta {
@@ -537,7 +603,83 @@
 }
 
 .landing-school-card-school-message {
-  margin: 0 0 12px 0;
-  font-size: 0.9rem;
-  color: #666;
+  margin: 0 0 14px 0;
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.4;
+  flex: 1;
+}
+
+/* Simulerad bekräftelse – visas i 1,6 s innan inloggning öppnas */
+.landing-school-modal-simulating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.landing-school-modal-simulating-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--mg-good);
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  animation: landing-school-simulate-pulse 0.8s ease-out;
+}
+
+@keyframes landing-school-simulate-pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  60% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.landing-school-modal-simulating-text {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--mg-ink);
+}
+
+.landing-school-modal-simulating-sub {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+@media (max-width: 600px) {
+  .landing-school-modal-cards {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .landing-school-card {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .landing-school-modal {
+    max-width: 100%;
+    padding: 20px 16px;
+  }
 }

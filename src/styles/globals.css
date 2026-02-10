@@ -12,7 +12,7 @@ body {
 
 /* En enda grön bakgrund – ingen gradient, så inga olika nyanser */
 body.mg-green-page {
-  background: #017a52;
+  background: var(--mg-bg-gradient);
   min-height: 100%;
 }
 body.mg-green-page #root,

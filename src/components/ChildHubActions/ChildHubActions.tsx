@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './ChildHubActions.css';
 
 interface Action {
@@ -19,7 +19,6 @@ interface ChildHubActionsProps {
  * - Color logic: green = do now, blue = look back, purple = me.
  */
 export function ChildHubActions({ actions }: ChildHubActionsProps) {
-  const navigate = useNavigate();
   const [primary, ...secondary] = actions;
 
   function renderIcon(icon: string) {
@@ -36,31 +35,29 @@ export function ChildHubActions({ actions }: ChildHubActionsProps) {
     <div className="child-hub-actions" role="group" aria-label="Välj vad du vill göra">
       {/* Primary action – one obvious "start here" */}
       {primary && (
-        <button
-          type="button"
+        <Link
+          to={primary.to}
           className="child-hub-primary"
-          onClick={() => navigate(primary.to)}
           aria-label={primary.label}
         >
           {renderIcon(primary.icon)}
           <span className="child-hub-primary-label">{primary.label}</span>
-        </button>
+        </Link>
       )}
 
       {/* Secondary – smaller, clearly separated */}
       {secondary.length > 0 && (
         <div className="child-hub-secondary-row">
           {secondary.map((action, index) => (
-            <button
+            <Link
               key={index}
-              type="button"
+              to={action.to}
               className={`child-hub-secondary child-hub-secondary-${index === 0 ? 'days' : 'me'}`}
-              onClick={() => navigate(action.to)}
               aria-label={action.label}
             >
               {renderIcon(action.icon)}
               <span className="child-hub-secondary-label">{action.label}</span>
-            </button>
+            </Link>
           ))}
         </div>
       )}

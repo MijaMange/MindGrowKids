@@ -134,8 +134,8 @@ export function JourneyHeader({
           )}
           <button
             className="journey-header-profile"
-            onClick={() => navigate('/app/avatar-simple')}
-            aria-label={user?.name ? `Min profil, ${user.name}` : 'Min profil'}
+            onClick={() => navigate('/hub')}
+            aria-label={user?.name ? `Till översikt, ${user.name}` : 'Till översikt'}
           >
             <span className="profile-icon">{user?.role === 'child' ? (emoji || '😊') : '🙂'}</span>
           </button>

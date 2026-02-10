@@ -146,6 +146,12 @@ function AppWrapper() {
           {/* Complex pages wrapped individually to prevent one crash from breaking entire app */}
           <Route path="/hub" element={<SafeHubPage />} />
           <Route path="/test-hub" element={<Navigate to="/hub" replace />} />
+          {/* Redirect gamla/alternativa sökvägar till rätt sidor – fixar felkoppling (känslo-knapp m.m.) */}
+          <Route path="/app/dashboard" element={<Navigate to="/hub" replace />} />
+          <Route path="/app/hub" element={<Navigate to="/hub" replace />} />
+          <Route path="/app/journey" element={<Navigate to="/app/journey-simple" replace />} />
+          <Route path="/app/diary" element={<Navigate to="/app/diary-simple" replace />} />
+          <Route path="/app/avatar" element={<Navigate to="/app/avatar-simple" replace />} />
           <Route 
             path="/app/journey-simple" 
             element={

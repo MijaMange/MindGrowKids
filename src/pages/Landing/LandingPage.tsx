@@ -21,6 +21,7 @@ export function LandingPage() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [showSchoolModal, setShowSchoolModal] = useState(false);
+  const [simulatingPlan, setSimulatingPlan] = useState<'klass' | 'verksamhet' | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const { user } = useAuth();
   const prefersReducedMotion = useMemo(() => {
@@ -45,6 +46,17 @@ export function LandingPage() {
   function handleLoginSuccess() {
     // Don't navigate here - let useEffect handle it when user state updates
     // This prevents timing issues with React state updates
+  }
+
+  /** Simulerad "Starta klass" / "Starta verksamhet" – visar bekräftelse, sedan öppnar inloggning */
+  function handleStartPlan(plan: 'klass' | 'verksamhet') {
+    setSimulatingPlan(plan);
+    setTimeout(() => {
+      setSimulatingPlan(null);
+      setShowSchoolModal(false);
+      setShowLogin(true);
+      if (searchParams.get('show') || searchParams.get('context')) setSearchParams({}, { replace: true });
+    }, 1600);
   }
 
   // Floating emojis - very slow, low opacity, decorative only
@@ -163,8 +175,8 @@ export function LandingPage() {
           {showSchoolModal && (
             <div
               className="landing-school-modal-backdrop"
-          onClick={() => { setShowSchoolModal(false); if (searchParams.get('show') || searchParams.get('context')) setSearchParams({}, { replace: true }); }}
-          onKeyDown={(e) => { if (e.key === 'Escape') { setShowSchoolModal(false); if (searchParams.get('show') || searchParams.get('context')) setSearchParams({}, { replace: true }); } }}
+          onClick={() => { if (!simulatingPlan) { setShowSchoolModal(false); if (searchParams.get('show') || searchParams.get('context')) setSearchParams({}, { replace: true }); } }}
+          onKeyDown={(e) => { if (e.key === 'Escape' && !simulatingPlan) { setShowSchoolModal(false); if (searchParams.get('show') || searchParams.get('context')) setSearchParams({}, { replace: true }); } }}
           role="dialog"
           aria-modal="true"
           aria-labelledby="school-modal-title"
@@ -173,6 +185,17 @@ export function LandingPage() {
             className="landing-school-modal"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Simulerad bekräftelse – visas medan vi "bearbetar" */}
+            {simulatingPlan ? (
+              <div className="landing-school-modal-simulating" role="status" aria-live="polite">
+                <div className="landing-school-modal-simulating-icon">✓</div>
+                <p className="landing-school-modal-simulating-text">
+                  {simulatingPlan === 'klass' ? 'Tack för ditt intresse för Klass!' : 'Tack för ditt intresse för Verksamhet!'}
+                </p>
+                <p className="landing-school-modal-simulating-sub">Öppnar inloggning...</p>
+              </div>
+            ) : (
+              <>
             <div className="landing-school-modal-header">
               <h2 id="school-modal-title">Abonnemang för skolor</h2>
               <button
@@ -195,7 +218,7 @@ export function LandingPage() {
                       <p className="landing-school-card-school-message">
                         Din skola använder MindGrow. Kontakta ansvarig eller gå med via skolans konto.
                       </p>
-                      <button type="button" className="landing-school-card-cta" onClick={() => { setShowSchoolModal(false); setShowLogin(true); }}>
+                      <button type="button" className="landing-school-card-cta" onClick={() => handleStartPlan('verksamhet')}>
                         Starta verksamhet
                       </button>
                     </div>
@@ -212,7 +235,7 @@ export function LandingPage() {
                       <li>Ingen skolkoppling</li>
                       <li>För piloter eller enskild användning</li>
                     </ul>
-                    <button type="button" className="landing-school-card-cta landing-school-card-cta-secondary" onClick={() => { setShowSchoolModal(false); setShowLogin(true); }}>
+                    <button type="button" className="landing-school-card-cta landing-school-card-cta-secondary" onClick={() => handleStartPlan('klass')}>
                       Starta klass
                     </button>
                   </div>
@@ -229,11 +252,13 @@ export function LandingPage() {
                   <li>Alla lärare</li>
                   <li>Ledning får översikt</li>
                 </ul>
-                <button type="button" className="landing-school-card-cta" onClick={() => { setShowSchoolModal(false); setShowLogin(true); }}>
+                <button type="button" className="landing-school-card-cta" onClick={() => handleStartPlan('verksamhet')}>
                   Starta verksamhet
                 </button>
               </div>
             </div>
+              </>
+            )}
           </div>
         </div>
           )}

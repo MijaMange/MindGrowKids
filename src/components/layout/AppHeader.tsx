@@ -120,9 +120,9 @@ export function AppHeader() {
               <button
                 type="button"
                 className="app-header-profile-btn"
-                onClick={() => navigate(user.role === 'child' ? '/app/avatar-simple' : '/hub')}
-                title={user.name ? `Min profil, ${user.name}` : 'Min profil'}
-                aria-label={user.name ? `Min profil, ${user.name}` : 'Min profil'}
+                onClick={() => navigate('/hub')}
+                title={user.name ? `Till översikt, ${user.name}` : 'Till översikt'}
+                aria-label={user.name ? `Till översikt, ${user.name}` : 'Till översikt'}
               >
                 <span className="app-header-profile-icon" aria-hidden="true">{user.role === 'child' ? (emoji || '😊') : '🙂'}</span>
               </button>

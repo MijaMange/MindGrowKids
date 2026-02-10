@@ -116,12 +116,13 @@
 /* Innehåll under navigering – marginal under topp, scroll vid behov */
 .journey-stage {
   flex: 1 1 auto;
+  min-height: 0; /* tillåter flex-barn att scrolla */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: clamp(16px, 2vw, 32px);
   padding-top: max(clamp(16px, 2vw, 32px), 20px); /* Tydlig marginal under header */
-  min-height: 200px; /* så innehållet alltid får utrymme (undviker "bara grönt") */
+  min-height: 200px; /* undviker "bara grönt" på små skärmar */
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -132,6 +133,11 @@
 .journey-stage:has(.creation-selection-container) {
   align-items: center;
   justify-content: center;
+}
+
+/* Rita/Skriv-mode: tillåt scroll, min-height 0 för flex */
+.journey-stage:has(.creation-selection-container) {
+  min-height: 0;
 }
 
 @media (max-width: 768px) {
@@ -188,11 +194,18 @@
     border-radius: 24px;
   }
 
-  /* Rita/Skriv-panelen stor även på mobil, ingen scroll */
+  /* Rita/Skriv-panelen: får plats i viewport utan att klippas av */
   .creation-selection-container .step-card {
-    height: min(88dvh, calc(100dvh - 48px));
-    min-height: 70dvh;
+    height: min(82dvh, calc(100dvh - 100px));
+    min-height: min(70dvh, calc(100dvh - 140px));
+    max-height: calc(100dvh - 80px);
     overflow: hidden;
+  }
+
+  .creation-selection-container {
+    min-height: 0;
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
   }
 
   .creation-overlay {

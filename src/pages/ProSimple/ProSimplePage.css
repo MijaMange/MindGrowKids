@@ -12,7 +12,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  background: #017a52;
+  background: var(--mg-bg-gradient);
 }
 
 /* ---- Sticky header – fast höjd ---- */
@@ -197,7 +197,7 @@
   transition: color 0.2s;
 }
 .pro-class-class-tab-wrap .pro-class-class-tab.active {
-  color: #017a52;
+  color: var(--mg-primary-dark);
 }
 
 .pro-class-class-delete {
@@ -222,7 +222,7 @@
   color: var(--mg-white);
 }
 .pro-class-class-tab-wrap:has(.pro-class-class-tab.active) .pro-class-class-delete {
-  color: #017a52;
+  color: var(--mg-primary-dark);
 }
 .pro-class-class-tab-wrap:has(.pro-class-class-tab.active) .pro-class-class-delete:hover {
   background: rgba(1, 122, 82, 0.15);
@@ -360,7 +360,7 @@
 .pro-class-tab[aria-selected="true"],
 .pro-class-tab.active {
   background: var(--mg-white);
-  color: #017a52;
+  color: var(--mg-primary-dark);
   border-color: var(--mg-white);
 }
 

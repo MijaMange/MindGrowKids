@@ -69,6 +69,47 @@ Servern körs från `dist/server/index.js` på Render. Därför måste `distPath
 
 ---
 
+## 🏠 4. Webbhotell (utanför Render)
+
+### Har ditt webbhotell Node.js-stöd?
+
+Vilka leverantörer som ofta har Node.js: Loopia (Node-appar), Binero, One.com (vissa paket), eller moln som Render, Railway, Heroku.
+
+**Om JA (Node.js finns):**
+- Sätt upp som på Render: ladda upp projektet, kör `npm install && npm run build && cd dist/server && npm install --production`
+- Starta med `node dist/server/index.js` (eller via PM2/cron)
+- Skapa `.env` med `JWT_SECRET`, `ALLOWED_ORIGINS` (din domän)
+- Gör en subdomän eller app som pekar mot Node-processen
+
+**Om NEJ (bara PHP/statisk hosting):**
+
+Då behöver du **två platser**:
+1. **API** – kvar på Render (eller annan Node-tjänst)
+2. **Frontend** – på webbhotellet (statiska filer)
+
+**Steg för statisk frontend på webbhotellet:**
+
+1. **Bygg med API-URL** (måste vara satt vid build):
+   ```bash
+   VITE_API_URL=https://mindgrowkids.onrender.com npm run build
+   ```
+   (Ersätt med din faktiska Render-URL)
+
+2. **Ladda upp innehållet i `dist/`** (utan `dist/server/`) till webbhotellets `public_html` eller `www`:
+   - `index.html`
+   - `assets/`
+   - `sw.js`, `manifest.webmanifest` (för PWA)
+
+3. **På Render (API):** Lägg till webbhotellets domän i `ALLOWED_ORIGINS`:
+   ```
+   ALLOWED_ORIGINS=https://mindgrowkids.onrender.com,https://mindgrowkids.online,https://www.mindgrowkids.online
+   ```
+
+4. **Cookies mellan olika domäner:**  
+   Servern sätter redan `SameSite=None; Secure` i produktion (se `server/mw/auth.js`), så inloggning ska fungera när frontend och API har olika domäner – så länge CORS är rätt konfigurerat.
+
+---
+
 ## ⚠️ Vanliga problem
 
 | Problem | Lösning |

@@ -62,7 +62,7 @@
 
 .child-flik-nav-item.active {
   background: rgba(28, 191, 130, 0.18);
-  color: #017a52;
+  color: var(--mg-primary-dark);
   box-shadow: 0 0 0 1px rgba(28, 191, 130, 0.2);
 }
 
@@ -81,7 +81,7 @@
 }
 
 .child-flik-nav-item:focus-visible {
-  outline: 2px solid #017a52;
+  outline: 2px solid var(--mg-primary-dark);
   outline-offset: 2px;
 }
 

@@ -267,7 +267,9 @@
   /* Rit-ytan mycket större i mobilvy, fyll skärmen */
   .journey-draw-canvas-wrapper {
     flex: 1;
-    min-height: 50dvh;
+    min-height: 70dvh;
+    max-height: 78dvh;
+    height: min(78dvh, calc(100dvh - 180px));
   }
 
   .sticker-emoji {
