@@ -27,6 +27,20 @@ node index.js
 
 See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for deployment options (PWA, Capacitor, hosting).
 
+## Testkonton (endast för test – fil-DB)
+
+När backend använder fil-DB (`mock-db.json`) finns följande testanvändare. Logga in via landningssidan med e-post + lösenord.
+
+| Roll | E-post | Lösenord | Beskrivning |
+|------|--------|----------|-------------|
+| **Lärare** | `larare@test.se` | `1234` | Klassens statistik, QR/PIN, flera klasser |
+| **Lärare** | `lara` | `1234` | Enklare testlärare (klasskod TEST-123) |
+| **Föräldrar** | `test` | `1234` | Kopplad till barnet Otto |
+| **Föräldrar** | `anna` | `1234` | Föräldrakonto utan barn |
+| **Barn** | `otto@test.se` | `1234` | Barn-vy med känsloresa, dagbok, avatar |
+
+Alla konton använder samma lösenord `1234`. Vid produktion ska dessa testkonton tas bort eller ändras.
+
 ## Prototype scope / limitations
 
 - **Voice input** is not implemented; input is text and drawing only.
