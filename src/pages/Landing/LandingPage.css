@@ -17,11 +17,11 @@
   padding-bottom: 40px;
 }
 
-/* Breathing background gradient - the "world" */
+/* Breathing background gradient - the "world" (explicit hex så färgen alltid matchar även i prod) */
 .landing-bg-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, var(--mg-bg-gradient-start) 0%, var(--mg-bg-gradient-end) 100%);
+  background: linear-gradient(135deg, #1CBF82 0%, #029E6E 100%);
   z-index: 0;
 }
 
@@ -334,6 +334,14 @@
   outline: 3px solid rgba(255, 255, 255, 0.5);
   outline-offset: 4px;
   border-radius: 4px;
+}
+
+.landing-footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.02em;
 }
 
 /* Responsive adjustments */

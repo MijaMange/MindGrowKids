@@ -153,6 +153,10 @@ export function LandingPage() {
             Abonnemang för skolor och verksamheter
           </button>
         </div>
+
+        <footer className="landing-footer">
+          © Mija Hedborg Mellander för Medieinstitutet
+        </footer>
       </div>
 
       {/* Modals rendras i body så att de inte klipps av overflow eller z-index */}
