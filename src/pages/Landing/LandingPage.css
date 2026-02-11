@@ -336,6 +336,80 @@
   border-radius: 4px;
 }
 
+/* Öppen demo – under Logga in/Skapa konto, för de som vill prova direkt */
+.landing-demo-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.landing-demo-intro {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--mg-white);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.landing-demo-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.landing-demo-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--mg-white);
+  color: var(--mg-primary-dark);
+  border: none;
+  border-radius: var(--mg-radius-pill);
+  padding: 16px 24px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  font-family: var(--mg-font-family);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.landing-demo-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.landing-demo-btn:disabled {
+  opacity: 0.85;
+  cursor: wait;
+}
+
+.landing-demo-btn:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.7);
+  outline-offset: 4px;
+}
+
+.landing-demo-icon {
+  font-size: 1.3rem;
+}
+
+.landing-demo-error {
+  margin: 12px 0 0 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  max-width: 280px;
+}
+
+
 .landing-footer {
   margin-top: 40px;
   padding-top: 20px;
@@ -391,6 +465,15 @@
     font-size: 0.95rem;
     height: var(--mg-button-height-small);
     padding: 0 28px;
+  }
+
+  .landing-demo-buttons {
+    max-width: 100%;
+  }
+
+  .landing-demo-btn {
+    padding: 14px 20px;
+    font-size: 1rem;
   }
   
   .floating-emoji {

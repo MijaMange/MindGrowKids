@@ -8,6 +8,13 @@ import { RegisterModal } from '../../components/RegisterModal/RegisterModal';
 import { useAuth } from '../../auth/AuthContext';
 import './LandingPage.css';
 
+/** Öppen demo – klick, direkt in. Ingen inloggning behövs. */
+const DEMO_ACCOUNTS = [
+  { email: 'larare@test.se', password: '1234', label: 'Demo som lärare', icon: '👩‍🏫' },
+  { email: 'otto@test.se', password: '1234', label: 'Demo som barn', icon: '🧒' },
+  { email: 'test', password: '1234', label: 'Demo som förälder', icon: '👨‍👩‍👧' },
+] as const;
+
 /**
  * LandingPage - Public entry point for adult users (schools, teachers, decision-makers)
  * 
@@ -22,8 +29,10 @@ export function LandingPage() {
   const [showRegister, setShowRegister] = useState(false);
   const [showSchoolModal, setShowSchoolModal] = useState(false);
   const [simulatingPlan, setSimulatingPlan] = useState<'klass' | 'verksamhet' | null>(null);
+  const [demoLoading, setDemoLoading] = useState<string | null>(null);
+  const [demoError, setDemoError] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
-  const { user } = useAuth();
+  const { user, login } = useAuth();
   const prefersReducedMotion = useMemo(() => {
     if (typeof window === 'undefined') return false;
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -46,6 +55,27 @@ export function LandingPage() {
   function handleLoginSuccess() {
     // Don't navigate here - let useEffect handle it when user state updates
     // This prevents timing issues with React state updates
+  }
+
+  /** Öppen demo – klick, direkt in. Ingen inloggning behövs. */
+  async function handleDemoClick(account: (typeof DEMO_ACCOUNTS)[number]) {
+    setDemoError('');
+    setDemoLoading(account.label);
+    try {
+      const result = await login({ username: account.email, password: account.password });
+      if (result.success) {
+        navigate('/hub', { replace: true });
+      } else {
+        const isNetwork = /ansluta|nätverk|network|servern|fetch/i.test(result.error);
+        setDemoError(isNetwork
+          ? 'Servern startar kanske (kan ta 30–60 sek). Försök igen.'
+          : result.error);
+      }
+    } catch {
+      setDemoError('Servern startar kanske. Försök igen om några sekunder.');
+    } finally {
+      setDemoLoading(null);
+    }
   }
 
   /** Simulerad "Starta klass" / "Starta verksamhet" – visar bekräftelse, sedan öppnar inloggning */
@@ -128,7 +158,7 @@ export function LandingPage() {
           samtidigt som vuxna kan se mönster och stötta när det behövs.
         </p>
         
-        {/* CTA Section – Logga in + Skapa konto i samma rad */}
+        {/* CTA Section – Logga in + Skapa konto som default (som innan) */}
         <div className="landing-cta-section">
           <div className="landing-cta-row">
             <button
@@ -152,6 +182,31 @@ export function LandingPage() {
           >
             Abonnemang för skolor och verksamheter
           </button>
+
+          {/* Öppen demo – under, för de som vill prova direkt */}
+          <div className="landing-demo-section">
+            <p className="landing-demo-intro">Prova direkt – välj vy:</p>
+            <div className="landing-demo-buttons">
+              {DEMO_ACCOUNTS.map((acc) => (
+                <button
+                  key={acc.email}
+                  type="button"
+                  className="landing-demo-btn"
+                  onClick={() => handleDemoClick(acc)}
+                  disabled={demoLoading !== null}
+                  aria-label={acc.label}
+                >
+                  <span className="landing-demo-icon" aria-hidden>{acc.icon}</span>
+                  <span>{demoLoading === acc.label ? 'Öppnar...' : acc.label}</span>
+                </button>
+              ))}
+            </div>
+            {demoError && (
+              <p className="landing-demo-error" role="alert">
+                {demoError}
+              </p>
+            )}
+          </div>
         </div>
 
         <footer className="landing-footer">

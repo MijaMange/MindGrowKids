@@ -557,6 +557,10 @@ app.use((req, res) => {
     }
     await connectDB(mongoUrl, process.env.MONGO_DB_NAME);
 
+    // Säkerställ testanvändare så läraren alltid kan logga in (fil-DB)
+    const { ensureTestUsers } = await import('./utils/seed-test-users.js');
+    await ensureTestUsers();
+
     const port = process.env.PORT || 4000;
     app.listen(port, () => {
       console.log(`[API] Server started successfully on port ${port}`);
